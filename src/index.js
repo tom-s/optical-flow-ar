@@ -7,12 +7,12 @@ AFRAME.registerComponent('register-events', {
 	  marker.setAttribute('emitEvents', true);
 	  marker.addEventListener('markerFound', () => {
 	  	const markerId = marker.id
-	  	console.log('markerFound', markerId)
+	  	console.log('markerFound', markerId, {...marker})
 	  	// TODO: Add your own code here to react to the marker being found.
 	  })
 	  marker.addEventListener('markerLost', () => {
 	  	const markerId = marker.id;
-	  	console.log('markerLost', markerId);
+	  	console.log('markerLost', markerId,  {...marker});
 	  	// TODO: Add your own code here to react to the marker being lost.
 	  })
   }
