@@ -65804,7 +65804,8 @@ AFRAME.registerComponent('arjs-anchor', {
           // honor this.data.preset
           if (_this.data.preset === 'hiro') {
               arProfile.defaultMarkerParameters.type = 'pattern'
-              arProfile.defaultMarkerParameters.patternUrl = THREEx.ArToolkitContext.baseURL + 'pattern-files/pattern-hiro.patt'
+              console.log("hum", _this.data)
+              arProfile.defaultMarkerParameters.patternUrl = _this.data.patternUrl;
               arProfile.defaultMarkerParameters.markersAreaEnabled = false
           } else if (_this.data.preset === 'kanji') {
               arProfile.defaultMarkerParameters.type = 'pattern'
@@ -65814,7 +65815,7 @@ AFRAME.registerComponent('arjs-anchor', {
               arProfile.defaultMarkerParameters.type = 'barcode'
               arProfile.defaultMarkerParameters.barcodeValue = 1001
               arProfile.defaultMarkerParameters.markersAreaEnabled = true
-          } else if( _this.data.preset === 'pattern' ){
+          } else if( _this.data.type === 'pattern' ){
             arProfile.defaultMarkerParameters.type = 'pattern'
             arProfile.defaultMarkerParameters.patternUrl = _this.data.patternUrl;
             arProfile.defaultMarkerParameters.markersAreaEnabled = false
