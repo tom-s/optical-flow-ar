@@ -35,7 +35,8 @@ module.exports = {
     ]),
     new HtmlWebpackPlugin({
       title: '#balancetonPOC',
-      template: 'index.html'
+      template: 'index.html',
+      inject: "head"
     }),
   ],
   output: {
