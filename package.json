@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tom-s/poke-ar.git"
+    "url": "git+https://github.com/lelivrescolaire/poke-ar.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/tom-s/poke-ar/issues"
+    "url": "https://github.com/lelivrescolaire/poke-ar/issues"
   },
-  "homepage": "https://github.com/tom-s/poke-ar#readme",
+  "homepage": "https://github.com/lelivrescolaire/poke-ar#readme",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
