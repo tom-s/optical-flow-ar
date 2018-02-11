@@ -1,3 +1,10 @@
+import 'aframe-touch-rotation-controls'
+
+/* Allow to drag an element by clicking on it
+import registerClickDrag from 'aframe-click-drag-component'
+registerClickDrag(AFRAME) */
+
+/* Marker tracking */
 AFRAME.registerComponent('register-events', {
   init: function() {
     console.log("init register events !", this)
