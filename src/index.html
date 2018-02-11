@@ -11,6 +11,7 @@
       <!-- Assets -->
       <a-assets>
         <a-asset-item id="moon" src="./assets/models/moon/scene.gltf"></a-asset-item>
+        <video id="moon-video" autoplay loop="true" src="./assets/videos/moon.mp4"></video>
       </a-assets>
 
        <!-- handle hiro marker
@@ -32,7 +33,8 @@
       </a-marker> -->
 
       <a-marker type='pattern' url="./assets/custom-markers/macron/pattern.patt" id="macron" register-events>
-        <a-gltf-model position='-0.5 0.5 -0.5' src="#moon" scale="0.5 0.5 0.5"></a-gltf-model>
+        <a-gltf-model position='-0.5 0.5 -1.5' src="#moon" scale="0.5 0.5 0.5"></a-gltf-model>
+        <a-video src="#moon-video" width="8" height="4" scale="0.5 0.5 0.5" rotation="90 0 0" position="0 0 0"></a-video>
         <!--
         <a-box position='0 0.5 0' material='opacity: 0.5; side: double;color:red;' look-controls>
           <a-torus-knot radius='0.26' radius-tubular='0.05'>
