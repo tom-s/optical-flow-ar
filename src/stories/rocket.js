@@ -1,26 +1,56 @@
 import get from 'lodash/get'
+import Ui from './ui'
 
 class RocketApp {
+
+
   constructor(startingPos=1000, startingSpeed=0) {
-    this.isMarkerShown = false
+    this.ui = new Ui()
     this.domEls = {}
     this.startingPos = startingPos
     this.startingSpeed = startingSpeed
     this.restart()
+
+    // Marker display
+    this.isMarkerShown = false
+
+    // Vectors display
+    this.showSpeed = false
+    this.showForce = false
   }
-  /* Marker */
+  init = () => {
+    this.ui.init({
+      onClickSpeed: this._toggleSpeedDisplay,
+      onClickForce: this._toggleForceDisplay
+    })
+  }
+  /* Screen Filters */
+  _toggleSpeedDisplay = () => {
+    this.showSpeed = !this.showSpeed
+  }
+  _toggleForceDisplay = () => {
+    this.showForce = !this.showForce
+  }
+
+  /* Public */
   getMarkerShown = () => this.isMarkerShown
+  getSpeedDisplay = () => this.showForce
+  getForceDisplay = () => this.showSpeed
   markerShow = () => {
     this.isMarkerShown = true
+    this.ui.toggle()
   }
   markerLost = () => {
     this.isMarkerShown = false
+    this.ui.toggle()
   }
-  /* DOM manipulation */
+
+
+  /* DOM manipulation
   registerDomEl = (id, el) => {
     this.domEls[id] = el
   }
-  getDomEl = id => get(this.domEls, id)
+  getDomEl = id => get(this.domEls, id)*/
 
   motion = (landing = false , dt=0.1) => {
     /*
@@ -30,13 +60,13 @@ class RocketApp {
     this.position = this.position + dt * this.speed
     this.speed = this.speed + dt * this.acceleration
 
-  if (this.position<0){
-    this.restart()
-  }
-  if (landing){
-    const boosterOn = this.position < this.startingPos*1/5
-    this.Booster(boosterOn)
-  }
+    if (this.position<0){
+      this.restart()
+    }
+    if (landing){
+      const boosterOn = this.position < this.startingPos*1/5
+      this.Booster(boosterOn)
+    }
   }
 
   restart(){
