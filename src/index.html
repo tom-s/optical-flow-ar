@@ -10,18 +10,19 @@
     <a-scene embedded arjs='trackingMethod: best;'>
       <!-- Assets -->
       <a-assets>
-        <a-asset-item id="moon" src="./assets/models/moon/scene.gltf"></a-asset-item>
-        <video id="moon-video" autoplay loop="true" src="./assets/videos/moon.mp4"></video>
+        <a-asset-item id="rocket-model" src="./assets/models/rocket/scene.gltf"></a-asset-item>
+       <!-- <video id="moon-video" autoplay loop="true" src="./assets/videos/moon.mp4"></video> -->
       </a-assets>
 
-       <!-- handle hiro marker
-      <a-marker preset='hiro'>
-        <a-box position='0 0.5 0' material='opacity: 0.5; side: double;color:red;'>
-          <a-torus-knot radius='0.26' radius-tubular='0.05'>
-            <a-animation attribute="rotation" to="360 0 0" dur="5000" easing='linear' repeat="indefinite"></a-animation>
-          </a-torus-knot>
-        </a-box>
-      </a-marker>-->
+      <!-- Generic instructions text
+      <a-entity text="value: Hello World;"></a-entity>
+      <a-entity id="opacity" position="-2.5 0.7 0"
+                text="color: white; align: center; value: Animating opacity; width: 1.5">
+       -->
+      <!-- Rocket -->
+      <a-marker type='pattern' url="./assets/custom-markers/rocket/pattern.patt" id="rocket-marker" register-events>
+        <a-gltf-model position='0 1.5 0' src="#rocket-model" scale="0.05 0.05 0.05"></a-gltf-model>
+      </a-marker>
 
       <!-- another marker
       <a-marker type='pattern' url="./assets/custom-markers/barack/pattern.patt" id="barack" register-events>
@@ -30,19 +31,17 @@
             <a-animation attribute="rotation" to="360 0 0" dur="5000" easing='linear' repeat="indefinite"></a-animation>
           </a-torus-knot>
         </a-box>
-      </a-marker> -->
+      </a-marker>
 
       <a-marker type='pattern' url="./assets/custom-markers/macron/pattern.patt" id="macron" register-events>
         <a-gltf-model position='-0.5 0.5 -1.5' src="#moon" scale="0.5 0.5 0.5"></a-gltf-model>
         <a-video src="#moon-video" width="8" height="4" scale="0.5 0.5 0.5" rotation="90 0 0" position="0 0 0"></a-video>
-        <!--
         <a-box position='0 0.5 0' material='opacity: 0.5; side: double;color:red;' look-controls>
           <a-torus-knot radius='0.26' radius-tubular='0.05'>
             <a-animation attribute="rotation" to="360 0 0" dur="5000" easing='linear' repeat="indefinite"></a-animation>
           </a-torus-knot>
         </a-box>
-      -->
-      </a-marker>
+      </a-marker> -->
     </a-entity>
 
       <!-- Define a static camera -->
