@@ -4,6 +4,12 @@ import 'aframe-arrow-component'
 
 import RocketApp, { STEPS } from './stories/rocket'
 
+export const STEPS_DETAILS = {
+  [STEPS.TAKE_OFF_END]: `Apres 195 secondes de vol, \n
+  les reacteurs d'appoint se decrochent \n
+  et commencent leur chute libre.`
+}
+
 // Create rocket app
 const ROCKET = new RocketApp()
 
@@ -48,11 +54,21 @@ AFRAME.registerComponent('altitude-counter', {
     if(position) {
       const altitude = Math.round(60 * progress)
       el.setAttribute('value', `${altitude} km`)
-      el.setAttribute('position', {x:-0.5,y:position + 0.7,z:0})
     }
   }
 })
 
+/* Text details */
+AFRAME.registerComponent('text-details', {
+  tick: function() {
+    const el = this.el
+    const currentStep = ROCKET.getCurrentStep()
+    const stepDetails = STEPS_DETAILS[currentStep]
+    el.setAttribute('value', stepDetails ? stepDetails : '')
+  }
+})
+
+/* Vectors */
 AFRAME.registerComponent('speed-vector', {
   tick: function() {
     const el = this.el

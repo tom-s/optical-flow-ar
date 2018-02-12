@@ -29,13 +29,16 @@
 
       <!-- Rocket app -->
       <a-marker type='pattern' url="./assets/custom-markers/rocket/pattern.patt" id="rocket-marker" register-events>
-        <!-- Rocket model -->
-        <a-gltf-model src="#rocket-model" scale="0.05 0.05 0.05" anim-takeoff>
-        </a-gltf-model>
-        <a-entity arrow speed-vector></a-entity>
-         <!-- Altitude counter -->
-         <a-entity look-at="[camera]">
-          <a-text color="white" size="10" altitude-counter></a-text>
+        <!-- Rocket -->
+        <a-entity anim-takeoff>
+          <a-gltf-model src="#rocket-model" scale="0.05 0.05 0.05">
+          </a-gltf-model>
+          <!-- Altitude counter -->
+         <a-entity look-at="[camera]" position="-0.5 0.5 0">
+            <a-text color="white" width="2" altitude-counter></a-text>
+            <a-text color="#ff9900" width="2.4" lineHeight="1" position="-1 -0.5 3" text-details></a-text>
+          </a-entity>
+          <a-entity arrow speed-vector></a-entity>
         </a-entity>
       </a-marker>
 
