@@ -10,9 +10,9 @@
     <div id='instructions' class='rocket-ui' style='visibility: visible;color: white; position: fixed; width: 100%; text-align: center; top: 40%; font-size: 60px;'>
       Vise ton manuel !
     </div>
-    <div class='rocket-ui' style="visibility: hidden; position: fixed; top: 20px; right: 20px">
-      <button style='display: block; width: 120px; height: 30px; margin-top: 20px;'>Bouton 1</button>
-      <button style='display: block; width: 120px; height: 30px; margin-top: 20px;'>Bouton 2</button>
+    <div class='rocket-ui' style="z-index: 100; visibility: hidden; position: fixed; top: 20px; right: 20px">
+      <button id='speed-display' style='display: block; width: 120px; height: 30px; margin-top: 20px;'>Vecteur vitesse</button>
+      <button id='force-display' style='display: block; width: 120px; height: 30px; margin-top: 20px;'>Vecteur force </button>
     </div>
     </button>
     <a-scene embedded arjs='trackingMethod: best;'>
