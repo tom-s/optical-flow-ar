@@ -3,6 +3,13 @@ import Ui from './ui'
 
 const TEXT_SHOW_DURATION = 5000
 
+export const MARKERS = {
+  EARTH: 'earth',
+  CRASH: 'crash',
+  GEO: 'geo',
+  ELLIPTIC: 'elliptic',
+  SPACE: 'space'
+}
 export const STEPS = {
   NONE: 'none',
 }
@@ -17,7 +24,13 @@ class RocketApp {
     }
 
     // Marker display
-    this.isMarkerShown = false
+    this.markers = {
+      [MARKERS.EARTH]: { visible: false },
+      [MARKERS.CRASH]: { visible: false },
+      [MARKERS.GEO]: { visible: false },
+      [MARKERS.ELLIPTIC]: { visible: false },
+      [MARKERS.SPACE]: { visible: false }
+    }
 
     // App state
     this.currentStep = STEPS.NONE
@@ -28,7 +41,7 @@ class RocketApp {
 
   /* Public */
   // Getters
-  getMarkerShown = () => this.isMarkerShown
+  isMarkerShown = id => get(this.markers, [id]['visible'])
   getCurrentStep = () => this.currentStep
   getAnimation = id => get(this.animations, [this.currentStep, id], ({
     tick: () => ({}),
@@ -36,14 +49,14 @@ class RocketApp {
   }))
 
   // Marker
-  markerShow = () => {
-    this.isMarkerShown = true
-    this.ui.toggle()
+  markerShow = id => {
+    this.markers[id].visible = true
+    //this.ui.toggle()
   }
-  markerLost = () => {
-    this.isMarkerShown = false
-    this.ui.toggle()
-    this.goToStep(STEPS.NONE)
+  markerLost = id => {
+    this.markers[id].visible = true
+    //this.ui.toggle()
+    //this.goToStep(STEPS.NONE)
   }
 
   goToStep = (step) => {
@@ -51,7 +64,7 @@ class RocketApp {
     console.log("go to step", this.currentStep)
     // Switch
     if(step === STEPS.NONE) {
-      this.animatons = {} // reset
+      this.animations = {} // reset
     }
   }
 }

@@ -14,16 +14,16 @@
     <a-scene embedded arjs='trackingMethod: best;'>
       <!-- Assets -->
       <a-assets>
-        <a-asset-item id="rocket-model" src="./assets/models/rocket/scene.gltf"></a-asset-item>
-       <!-- <video id="moon-video" autoplay loop="true" src="./assets/videos/moon.mp4"></video> -->
+        <a-asset-item id="earth" src="./assets/models/earth/scene.gltf"></a-asset-item>
+        <a-asset-item id="satellite" src="./assets/models/satellite/scene.gltf"></a-asset-item>
       </a-assets>
 
 
       <!-- Orbit app -->
-      <a-marker type='pattern' url="./assets/custom-markers/orbit/pattern.patt" id="rocket-marker" register-events>
+      <a-marker type='pattern' url="./assets/custom-markers/orbit/pattern.patt" id="earth-marker" register-events>
 
       </a-marker>
-      <a-marker type='pattern' url="./assets/custom-markers/orbit/pattern.patt" id="rocket-marker" register-events>
+      <a-marker type='pattern' url="./assets/custom-markers/orbit/pattern.patt" id="satellite-marker" register-events>
 
       </a-marker>
 

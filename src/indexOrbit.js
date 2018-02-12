@@ -23,10 +23,12 @@ AFRAME.registerComponent('register-events', {
 
     // Make the element emit events when found and when lost.
 	  marker.setAttribute('emitEvents', true);
-	  marker.addEventListener('markerFound', () => {
+	  marker.addEventListener('markerFound', (id) => {
+      console.log("id", id)
 	  	ORBIT.markerShow()
 	  })
-	  marker.addEventListener('markerLost', () => {
+	  marker.addEventListener('markerLost', (id) => {
+      console.log("id")
 	  	ORBIT.markerLost()
     })
   }
