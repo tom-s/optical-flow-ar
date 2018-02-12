@@ -1,0 +1,34 @@
+<html>
+  <head>
+  <!-- AR.js by @jerome_etienne - github: https://github.com/jeromeetienne/ar.js - info: https://medium.com/arjs/augmented-reality-in-10-lines-of-html-4e193ea9fdbf -->
+  <!-- Use https://jeromeetienne.github.io/AR.js/three.js/examples/marker-training/examples/generator.html for custom pattern, the webx link is broken -->
+  <script src="./assets/scripts/aframe.min.js"></script>
+  <script src="./assets/scripts/aframe-ar.js"></script>
+  <script>THREEx.ArToolkitContext.baseURL = './assets/'</script>
+  </head>
+  <body style='margin : 0px; overflow: hidden;'>
+    <div id='instructions' class='rocket-ui' style='visibility: visible;color: white; position: fixed; width: 100%; text-align: center; top: 40%; font-size: 60px;'>
+      Vise ton manuel !
+    </div>
+    </button>
+    <a-scene embedded arjs='trackingMethod: best;'>
+      <!-- Assets -->
+      <a-assets>
+        <a-asset-item id="rocket-model" src="./assets/models/rocket/scene.gltf"></a-asset-item>
+       <!-- <video id="moon-video" autoplay loop="true" src="./assets/videos/moon.mp4"></video> -->
+      </a-assets>
+
+
+      <!-- Orbit app -->
+      <a-marker type='pattern' url="./assets/custom-markers/orbit/pattern.patt" id="rocket-marker" register-events>
+
+      </a-marker>
+      <a-marker type='pattern' url="./assets/custom-markers/orbit/pattern.patt" id="rocket-marker" register-events>
+
+      </a-marker>
+
+      <!-- Define a static camera -->
+      <a-camera-static/>
+    </a-scene>
+  </body>
+</html>

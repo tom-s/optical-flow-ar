@@ -1,4 +1,3 @@
-import 'aframe-touch-rotation-controls'
 import 'aframe-look-at-component'
 import 'aframe-arrow-component'
 

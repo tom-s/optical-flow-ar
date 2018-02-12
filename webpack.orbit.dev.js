@@ -4,14 +4,14 @@ const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
   devtool: 'inline-source-map',
-  entry: "./index",
+  entry: "./indexOrbit",
   devServer: {
     contentBase: './dist'
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: '#balancetonPOC',
-      template: 'index.html',
+      title: '#balancetonPOC2',
+      template: 'indexOrbit.html',
       inject: "head"
     }),
     new webpack.HotModuleReplacementPlugin()

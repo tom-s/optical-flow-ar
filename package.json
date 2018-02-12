@@ -6,6 +6,8 @@
   "scripts": {
     "start": "webpack-dev-server --open --config webpack.dev.js",
     "start:public": "webpack-dev-server --https --open --host 0.0.0.0 --config webpack.dev.js",
+    "start:orbit": "webpack-dev-server --open --config webpack.orbit.dev.js",
+    "start:orbit:public": "webpack-dev-server --https --open --host 0.0.0.0 --config webpack.orbit.dev.js",
     "build": "webpack --config webpack.prod.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
