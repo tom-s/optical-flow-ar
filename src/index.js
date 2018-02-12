@@ -5,8 +5,14 @@ import RocketApp from './stories/rocket'
 import registerClickDrag from 'aframe-click-drag-component'
 registerClickDrag(AFRAME) */
 
-// Start rocket App
+// Create rocket app
 const ROCKET = new RocketApp()
+
+window.addEventListener('load', () => {
+  console.log("loaded")
+  // Init rocket App
+  ROCKET.init()
+})
 
 /* Marker tracking */
 AFRAME.registerComponent('register-events', {
@@ -17,22 +23,23 @@ AFRAME.registerComponent('register-events', {
 
 	  marker.setAttribute('emitEvents', true);
 	  marker.addEventListener('markerFound', () => {
-      console.log("marker found")
 	  	ROCKET.markerShow()
 	  })
 	  marker.addEventListener('markerLost', () => {
-      console.log("marker lost")
 	  	ROCKET.markerLost()
 	  })
   }
 })
 
-AFRAME.registerComponent('hide-on-marker-found', {
+AFRAME.registerComponent('handle-instructions', {
   tick: function () {
     const el = this.el
-    const isShown = RocketApp.getMarkerShown()
-    console.log("debug isShown ?", isShown)
-    el.setAttribute('visible', isShown)
+    const isShown = ROCKET.getMarkerShown()
+    if(isShown) {
+      ROCKET.hideIntructions()
+    } else {
+      ROCKET.showIntructions()
+    }
   }
 })
 
@@ -43,7 +50,9 @@ AFRAME.registerComponent('booster-fall', {
     console.log("init register events !", this)
 	  const booster = this.el
     // Make the element emit events when found and when lost.
+
   }
 })
+
 
 

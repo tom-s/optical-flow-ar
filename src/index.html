@@ -7,18 +7,19 @@
   <script>THREEx.ArToolkitContext.baseURL = './assets/'</script>
   </head>
   <body style='margin : 0px; overflow: hidden;'>
+    <div id='instructions' style='color: white; position: fixed; width: 100%; text-align: center; top: 40%; font-size: 60px;'>
+      Filme le manuel !
+    </div>
     <a-scene embedded arjs='trackingMethod: best;'>
+      <!-- Instructions handling -->
+      <a-entity handle-instructions></a-entity>
+
       <!-- Assets -->
       <a-assets>
         <a-asset-item id="rocket-model" src="./assets/models/rocket/scene.gltf"></a-asset-item>
        <!-- <video id="moon-video" autoplay loop="true" src="./assets/videos/moon.mp4"></video> -->
       </a-assets>
 
-      <!-- Generic instructions text
-      <a-entity text="value: Hello World;"></a-entity>
-      <a-entity id="opacity" position="-2.5 0.7 0"
-                text="color: white; align: center; value: Animating opacity; width: 1.5">
-       -->
       <!-- Rocket -->
       <a-marker type='pattern' url="./assets/custom-markers/rocket/pattern.patt" id="rocket-marker" register-events>
         <a-gltf-model position='0 1.5 0' src="#rocket-model" scale="0.05 0.05 0.05"></a-gltf-model>
