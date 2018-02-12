@@ -10,10 +10,12 @@ class Animation {
     this.onAnimationEnd = onAnimationEnd
     this.lastTick = {}
   }
+
   animationEnd = () => {
     this.isPlaying = false
     this.onAnimationEnd && this.onAnimationEnd()
   }
+
   getValue = () => this.lastTick
 
   tick = (dt = 0.1) => {
