@@ -87,7 +87,7 @@ class RocketApp {
     if(step === STEPS.BOOSTER_FALL) {
       // Start animating
       this.animations[step] = {
-        'takeOff': new AnimationBoosterFall({
+        'fall': new AnimationBoosterFall({
           onAnimationEnd: () => {
             this.goToStep(STEPS.BOOSTER_LANDING)
           }

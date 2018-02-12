@@ -50,6 +50,7 @@ AFRAME.registerComponent('anim-takeoff', {
   tick: function() {
     const { position } = ROCKET.getAnimation('takeOff').tick()
     if(position) {
+      console.log("takeoff")
       this.el.setAttribute('position', {x:0,y:position,z:0})
     }
   },
