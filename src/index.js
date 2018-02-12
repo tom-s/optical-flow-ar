@@ -28,9 +28,19 @@ AFRAME.registerComponent('register-events', {
 /* Booster fall */
 AFRAME.registerComponent('booster-fall', {
   init: function() {
-	  const booster = this.el
+    console.log("Julien Init", this)
+    const booster = this.el
     // Make the element emit events when found and when lost.
+  },
 
+  tick: function() {
+    const isShown = ROCKET.getMarkerShown()
+    if (isShown){
+      ROCKET.motion(true)
+      this.el.setAttribute('position', {x:0,y:ROCKET.position/1000,z:0})
+      console.log("tick", ROCKET.position, ROCKET.speed, this.el)
+
+    }
   }
 })
 
