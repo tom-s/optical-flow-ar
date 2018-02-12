@@ -15,12 +15,22 @@ class RocketApp {
   }
   init = () => {
     this.ui.init({
-      onClickSpeed: this.toggleSpeedDisplay,
-      onClickForce: this.toggleForceDisplay
+      onClickSpeed: this._toggleSpeedDisplay,
+      onClickForce: this._toggleForceDisplay
     })
   }
-  /* Marker */
+  /* Screen Filters */
+  _toggleSpeedDisplay = () => {
+    this.showSpeed = !this.showSpeed
+  }
+  _toggleForceDisplay = () => {
+    this.showForce = !this.showForce
+  }
+
+  /* Public */
   getMarkerShown = () => this.isMarkerShown
+  getSpeedDisplay = () => this.showForce
+  getForceDisplay = () => this.showSpeed
   markerShow = () => {
     this.isMarkerShown = true
     this.ui.toggle()
@@ -29,20 +39,13 @@ class RocketApp {
     this.isMarkerShown = false
     this.ui.toggle()
   }
-  /* Screen Filters */
-  toggleSpeedDisplay = () => {
-    this.showSpeed = !this.showSpeed
-  }
-  toggleForceDisplay = () => {
-    this.showForce = !this.showForce
-  }
-  getSpeedDisplay = () => this.showForce
-  getForceDisplay = () => this.showSpeed
-  /* DOM manipulation */
+
+
+  /* DOM manipulation
   registerDomEl = (id, el) => {
     this.domEls[id] = el
   }
-  getDomEl = id => get(this.domEls, id)
+  getDomEl = id => get(this.domEls, id) */
 }
 
 export default RocketApp
