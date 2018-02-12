@@ -1,5 +1,6 @@
 import 'aframe-touch-rotation-controls'
 import 'aframe-look-at-component'
+import 'aframe-arrow-component'
 
 import RocketApp, { STEPS } from './stories/rocket'
 
@@ -49,6 +50,12 @@ AFRAME.registerComponent('altitude-counter', {
       el.setAttribute('value', `${altitude} km`)
       el.setAttribute('position', {x:-0.5,y:position + 0.7,z:0})
     }
-  },
+  }
 })
 
+AFRAME.registerComponent('speed-vector', {
+  tick: function() {
+    const el = this.el
+    el.setAttribute('arrow', "direction: 0 1 0;")
+  }
+})
