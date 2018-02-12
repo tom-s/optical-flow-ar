@@ -1,6 +1,12 @@
 import get from 'lodash/get'
 import Ui from './ui'
 
+export const STEPS = {
+  DEFAULT: 'default',
+  TAKE_OFF: 'takeoff',
+  BOOSTER_FALL: 'boosterfall'
+}
+
 class RocketApp {
   constructor() {
     this.ui = new Ui()
@@ -12,25 +18,29 @@ class RocketApp {
     // Vectors display
     this.showSpeed = false
     this.showForce = false
+
+    // App state
+    this.currentStep = STEPS.TAKE_OFF
   }
   init = () => {
     this.ui.init({
-      onClickSpeed: this._toggleSpeedDisplay,
-      onClickForce: this._toggleForceDisplay
+      onClickSpeed: () => {
+        this.showSpeed = !this.showSpeed
+      },
+      onClickForce: () => {
+        this.showForce = !this.showForce
+      }
     })
-  }
-  /* Screen Filters */
-  _toggleSpeedDisplay = () => {
-    this.showSpeed = !this.showSpeed
-  }
-  _toggleForceDisplay = () => {
-    this.showForce = !this.showForce
   }
 
   /* Public */
+  // Getters
   getMarkerShown = () => this.isMarkerShown
   getSpeedDisplay = () => this.showForce
   getForceDisplay = () => this.showSpeed
+  getCurrentStep = () => this.currentStep
+
+  // Marker
   markerShow = () => {
     this.isMarkerShown = true
     this.ui.toggle()
@@ -38,6 +48,14 @@ class RocketApp {
   markerLost = () => {
     this.isMarkerShown = false
     this.ui.toggle()
+  }
+
+  // App state
+  stepFinished = step => {
+    // Go to next step
+    if(step === STEPS.TAKE_OFF) {
+      this.currentStep = STEPS.BOOSTER_FALL
+    }
   }
 
 

@@ -21,7 +21,21 @@ AFRAME.registerComponent('register-events', {
 	  })
 	  marker.addEventListener('markerLost', () => {
 	  	ROCKET.markerLost()
-	  })
+    })
+
+    // Init animation
+  }
+})
+
+/* Animation events */
+AFRAME.registerComponent('register-anim-events', {
+  init: function() {
+    const el = this.el
+    // Init all animation listeners
+    console.log("init !!!!", el)
+    el.addEventListener('animationend', () => {
+      console.log("YOUPI")
+    })
   }
 })
 
@@ -33,6 +47,4 @@ AFRAME.registerComponent('booster-fall', {
 
   }
 })
-
-
 
