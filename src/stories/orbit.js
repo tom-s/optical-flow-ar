@@ -20,7 +20,11 @@ class RocketApp {
 
     // Animations
     this.animations = {
-      [STEPS.NONE]: null
+      [STEPS.NONE]: null,
+      [MARKERS.EARTH]: null,
+      [MARKERS.GEO]: null,
+      [MARKERS.ELLIPTIC]: null,
+      [MARKERS.SPACE]: null
     }
 
     // Marker display
@@ -36,7 +40,7 @@ class RocketApp {
     this.currentStep = STEPS.NONE
   }
   init = () => {
-    this.ui.init()
+    this.ui.init({})
   }
 
   /* Public */
@@ -51,12 +55,19 @@ class RocketApp {
   // Marker
   markerShow = id => {
     this.markers[id].visible = true
-    //this.ui.toggle()
+    this.checkStep()
   }
   markerLost = id => {
     this.markers[id].visible = true
-    //this.ui.toggle()
-    //this.goToStep(STEPS.NONE)
+    this.checkStep()
+  }
+
+  checkStep = () => {
+    if(Object.values(this.markers).filter(marker => marker.visible)).length === 2) {
+      if(this.markers[MARKERS.EARTH].visible) {
+        // Go to approriate step
+      }
+    }
   }
 
   goToStep = (step) => {

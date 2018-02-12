@@ -1,12 +1,8 @@
 import 'aframe-look-at-component'
 
-import OrbitApp, { STEPS } from './stories/rocket'
+import OrbitApp, { STEPS } from './stories/orbit'
 
-export const STEPS_DETAILS = {
-  [STEPS.TAKE_OFF_END]: `Apres 195 secondes de vol, \n
-  les reacteurs d'appoint se decrochent \n
-  et commencent leur chute libre.`
-}
+export const STEPS_DETAILS = {}
 
 // Create rocket app
 const ORBIT = new OrbitApp()
@@ -23,13 +19,13 @@ AFRAME.registerComponent('register-events', {
 
     // Make the element emit events when found and when lost.
 	  marker.setAttribute('emitEvents', true);
-	  marker.addEventListener('markerFound', (id) => {
-      console.log("id", id)
-	  	ORBIT.markerShow()
+	  marker.addEventListener('markerFound', ({target: {id}}) => {
+      console.log("markerFound", id)
+	  	ORBIT.markerShow(id)
 	  })
-	  marker.addEventListener('markerLost', (id) => {
-      console.log("id")
-	  	ORBIT.markerLost()
+	  marker.addEventListener('markerLost', ({target: {id}}) => {
+      console.log("markerLost", id)
+	  	ORBIT.markerLost(id)
     })
   }
 })
