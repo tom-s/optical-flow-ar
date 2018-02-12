@@ -1,15 +1,29 @@
 import get from 'lodash/get'
 import Ui from './ui'
+import AnimationTakeOff from './animation/takeoff'
+import AnimationBoosterFall from './animation/fall'
+import AnimationBoosterLanding from './animation/landing'
+
+
+export const STEPS = {
+  NONE: 'none',
+  TAKE_OFF: 'takeoff',
+  BOOSTER_FALL: 'boosterFall',
+  BOOSTER_LANDING: 'boosterLanding'
+}
 
 class RocketApp {
-
-
-  constructor(startingPos=1000, startingSpeed=0) {
+  constructor() {
     this.ui = new Ui()
     this.domEls = {}
-    this.startingPos = startingPos
-    this.startingSpeed = startingSpeed
-    this.restart()
+
+    // Animations
+    this.animations = {
+      [STEPS.NONE]: null,
+      [STEPS.TAKE_OFF]: null,
+      [STEPS.BOOSTER_FALL]: null,
+      [STEPS.BOOSTER_LANDING]: null,
+    }
 
     // Marker display
     this.isMarkerShown = false
@@ -17,69 +31,84 @@ class RocketApp {
     // Vectors display
     this.showSpeed = false
     this.showForce = false
+
+    // App state
+    this.currentStep = STEPS.NONE
   }
   init = () => {
     this.ui.init({
-      onClickSpeed: this._toggleSpeedDisplay,
-      onClickForce: this._toggleForceDisplay
+      onClickSpeed: () => {
+        this.showSpeed = !this.showSpeed
+      },
+      onClickForce: () => {
+        this.showForce = !this.showForce
+      }
     })
-  }
-  /* Screen Filters */
-  _toggleSpeedDisplay = () => {
-    this.showSpeed = !this.showSpeed
-  }
-  _toggleForceDisplay = () => {
-    this.showForce = !this.showForce
   }
 
   /* Public */
+  // Getters
   getMarkerShown = () => this.isMarkerShown
   getSpeedDisplay = () => this.showForce
   getForceDisplay = () => this.showSpeed
+  getCurrentStep = () => this.currentStep
+  getAnimation = id => get(this.animations, [this.currentStep, id], ({
+    tick: () => ({}),
+    getValue: () => ({})
+  }))
+
+  // Marker
   markerShow = () => {
     this.isMarkerShown = true
     this.ui.toggle()
+    this.goToStep(STEPS.TAKE_OFF)
   }
   markerLost = () => {
     this.isMarkerShown = false
     this.ui.toggle()
+    this.goToStep(STEPS.NONE)
   }
 
-
-  /* DOM manipulation
-  registerDomEl = (id, el) => {
-    this.domEls[id] = el
-  }
-  getDomEl = id => get(this.domEls, id)*/
-
-  motion = (landing = false , dt=0.1) => {
-    /*
-    acceleration : acceleration of the rocket. Set to free fall acceleration
-    dt: elapsed physical time between two frames. Set to 0.1 sec (ie: 60 times faster than reality if 60 fps)
-    */
-    this.position = this.position + dt * this.speed
-    this.speed = this.speed + dt * this.acceleration
-
-    if (this.position<0){
-      this.restart()
+  goToStep = (step) => {
+    this.currentStep = step // update current step
+    console.log("go to step", step)
+    // Switch
+    if(step === STEPS.NONE) {
+      this.animatons = {} // reset
     }
-    if (landing){
-      const boosterOn = this.position < this.startingPos*1/5
-      this.Booster(boosterOn)
+    if(step === STEPS.TAKE_OFF) {
+      // Start animating
+      this.animations[step] = {
+        'takeOff': new AnimationTakeOff({
+          onAnimationEnd: () => {
+            this.goToStep(STEPS.BOOSTER_FALL)
+          }
+        })
+      }
     }
-  }
+    if(step === STEPS.BOOSTER_FALL) {
+      // Start animating
+      this.animations[step] = {
+        'fall': new AnimationBoosterFall({
+          onAnimationEnd: () => {
+            this.goToStep(STEPS.BOOSTER_LANDING)
+          }
+        })
+      }
+    }
 
-  restart(){
-    this.position = this.startingPos
-    this.speed = this.startingSpeed
-    this.Booster()
-  }
+    if(step === STEPS.BOOSTER_LANDING) {
+      // Start animating
+      this.animations[step] = {
+        'landing': new AnimationBoosterFall({
+          onAnimationEnd: () => {
+            this.goToStep(STEPS.BOOSTER_LANDING)
+          }
+        })
+      }
+    }
 
-  Booster(boosterOn, power=6){
-    const g = 9.8
-    this.acceleration = boosterOn ? (power-1)*g : - g
   }
-
 }
 
 export default RocketApp

@@ -31,39 +31,20 @@
 
       <a-marker type='pattern' url="./assets/custom-markers/rocket/pattern.patt" id="rocket-marker" register-events>
         <!-- Rocket model -->
-        <a-entity scale="0.01 0.01 0.01">
-          <a-gltf-model position='0 100 0' src="#rocket-model" ></a-gltf-model>
-          <a-entity>
-            <a-cylinder  src ="https://i.imgur.com/mYmmbrp.jpg" height="5" radius="0.5" booster-fall></a-cylinder>
+
+        <a-entity scale="0.01 0.01 0.01" >
+          <a-gltf-model src="#rocket-model" anim-takeoff></a-gltf-model>
+          <!--
+          <a-entity anim-takeoff>
+            <a-cylinder  src ="https://i.imgur.com/mYmmbrp.jpg" height="5" radius="0.5"></a-cylinder>
           </a-entity>
+        -->
 
 
         </a-entity>
 
+
       </a-marker>
-
-
-
-
-      <!-- another marker
-      <a-marker type='pattern' url="./assets/custom-markers/barack/pattern.patt" id="barack" register-events>
-        <a-box position='0 0.5 0' material='opacity: 0.5; side: double;color:red;'>
-          <a-torus-knot radius='0.26' radius-tubular='0.05'>
-            <a-animation attribute="rotation" to="360 0 0" dur="5000" easing='linear' repeat="indefinite"></a-animation>
-          </a-torus-knot>
-        </a-box>
-      </a-marker>
-
-      <a-marker type='pattern' url="./assets/custom-markers/macron/pattern.patt" id="macron" register-events>
-        <a-gltf-model position='-0.5 0.5 -1.5' src="#moon" scale="0.5 0.5 0.5"></a-gltf-model>
-        <a-video src="#moon-video" width="8" height="4" scale="0.5 0.5 0.5" rotation="90 0 0" position="0 0 0"></a-video>
-        <a-box position='0 0.5 0' material='opacity: 0.5; side: double;color:red;' look-controls>
-          <a-torus-knot radius='0.26' radius-tubular='0.05'>
-            <a-animation attribute="rotation" to="360 0 0" dur="5000" easing='linear' repeat="indefinite"></a-animation>
-          </a-torus-knot>
-        </a-box>
-      </a-marker> -->
-    </a-entity>
 
       <!-- Define a static camera -->
       <a-camera-static/>
