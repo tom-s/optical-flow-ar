@@ -40,9 +40,19 @@ AFRAME.registerComponent('hide-on-marker-found', {
 /* Booster fall */
 AFRAME.registerComponent('booster-fall', {
   init: function() {
-    console.log("init register events !", this)
-	  const booster = this.el
+    console.log("Julien Init", this)
+    const booster = this.el
     // Make the element emit events when found and when lost.
+  },
+
+  tick: function() {
+    const isShown = ROCKET.getMarkerShown()
+    if (isShown){
+      ROCKET.motion()
+      this.el.setAttribute('position', {x:0,z:ROCKET.position/1000,y:0})
+      console.log("tick", ROCKET.position, ROCKET.speed, this.el)
+
+    }
   }
 })
 
