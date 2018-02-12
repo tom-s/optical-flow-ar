@@ -32,6 +32,10 @@
         <!-- Rocket model -->
         <a-gltf-model src="#rocket-model" scale="0.05 0.05 0.05" anim-takeoff>
         </a-gltf-model>
+         <!-- Altitude counter -->
+         <a-entity look-at="[camera]">
+          <a-text color="white" size="10" altitude-counter></a-text>
+        </a-entity>
       </a-marker>
 
       <!-- Define a static camera -->

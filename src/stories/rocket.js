@@ -52,7 +52,8 @@ class RocketApp {
   getForceDisplay = () => this.showSpeed
   getCurrentStep = () => this.currentStep
   getAnimation = id => get(this.animations, [this.currentStep, id], ({
-    tick: () => ({})
+    tick: () => ({}),
+    getValue: () => ({})
   }))
 
   // Marker
