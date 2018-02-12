@@ -7,21 +7,24 @@
   <script>THREEx.ArToolkitContext.baseURL = './assets/'</script>
   </head>
   <body style='margin : 0px; overflow: hidden;'>
-    <div id='instructions' style='color: white; position: fixed; width: 100%; text-align: center; top: 40%; font-size: 60px;'>
-      Filme le manuel !
+    <div id='instructions' class='rocket-ui' style='visibility: visible;color: white; position: fixed; width: 100%; text-align: center; top: 40%; font-size: 60px;'>
+      Vise ton manuel !
     </div>
+    <div class='rocket-ui' style="visibility: hidden; position: fixed; top: 20px; right: 20px">
+      <button style='display: block; width: 120px; height: 30px; margin-top: 20px;'>Bouton 1</button>
+      <button style='display: block; width: 120px; height: 30px; margin-top: 20px;'>Bouton 2</button>
+    </div>
+    </button>
     <a-scene embedded arjs='trackingMethod: best;'>
-      <!-- Instructions handling -->
-      <a-entity handle-instructions></a-entity>
-
       <!-- Assets -->
       <a-assets>
         <a-asset-item id="rocket-model" src="./assets/models/rocket/scene.gltf"></a-asset-item>
        <!-- <video id="moon-video" autoplay loop="true" src="./assets/videos/moon.mp4"></video> -->
       </a-assets>
 
-      <!-- Rocket -->
+      <!-- Rocket app -->
       <a-marker type='pattern' url="./assets/custom-markers/rocket/pattern.patt" id="rocket-marker" register-events>
+        <!-- Rocket model -->
         <a-gltf-model position='0 1.5 0' src="#rocket-model" scale="0.05 0.05 0.05"></a-gltf-model>
       </a-marker>
 

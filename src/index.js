@@ -9,7 +9,6 @@ registerClickDrag(AFRAME) */
 const ROCKET = new RocketApp()
 
 window.addEventListener('load', () => {
-  console.log("loaded")
   // Init rocket App
   ROCKET.init()
 })
@@ -17,7 +16,6 @@ window.addEventListener('load', () => {
 /* Marker tracking */
 AFRAME.registerComponent('register-events', {
   init: function() {
-    console.log("init register events !", this)
 	  const marker = this.el
     // Make the element emit events when found and when lost.
 
@@ -31,23 +29,9 @@ AFRAME.registerComponent('register-events', {
   }
 })
 
-AFRAME.registerComponent('handle-instructions', {
-  tick: function () {
-    const el = this.el
-    const isShown = ROCKET.getMarkerShown()
-    if(isShown) {
-      ROCKET.hideIntructions()
-    } else {
-      ROCKET.showIntructions()
-    }
-  }
-})
-
-
 /* Booster fall */
 AFRAME.registerComponent('booster-fall', {
   init: function() {
-    console.log("init register events !", this)
 	  const booster = this.el
     // Make the element emit events when found and when lost.
 

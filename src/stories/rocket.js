@@ -4,29 +4,30 @@ class RocketApp {
   constructor() {
     this.isMarkerShown = false
     this.domEls = {}
-    this.domInstructions = null
+    this.domUi = []
   }
   init = () => {
-    this.domInstructions =  window.document.querySelector('#instructions')
+    this.domUi =  window.document.querySelectorAll('.rocket-ui')
   }
-  /* Outer dom  */
-  showIntructions = () => {
-    if(this.domInstructions && this.domInstructions.style.visibility !== 'visible') {
-      this.domInstructions.style.visibility = 'visible'
-    }
-  }
-  hideIntructions = () => {
-    if(this.domInstructions && this.domInstructions.style.visibility !== 'hidden') {
-      this.domInstructions.style.visibility = 'hidden'
+  /* Outer UI  */
+  updateUi = (markerShown) => {
+    if(this.domUi) {
+      this.domUi.forEach(el => {
+        el.style.visibility = el.style.visibility === 'hidden'
+          ? 'visible'
+          : 'hidden'
+      })
     }
   }
   /* Marker */
   getMarkerShown = () => this.isMarkerShown
   markerShow = () => {
     this.isMarkerShown = true
+    this.updateUi()
   }
   markerLost = () => {
     this.isMarkerShown = false
+    this.updateUi()
   }
   /* DOM manipulation */
   registerDomEl = (id, el) => {
