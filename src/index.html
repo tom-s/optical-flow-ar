@@ -7,7 +7,13 @@
   <script>THREEx.ArToolkitContext.baseURL = './assets/'</script>
   </head>
   <body style='margin : 0px; overflow: hidden;'>
+    <div id='instructions' style='color: white; position: fixed; width: 100%; text-align: center; top: 40%; font-size: 60px;'>
+      Filme le manuel !
+    </div>
     <a-scene embedded arjs='trackingMethod: best;'>
+      <!-- Instructions handling -->
+      <a-entity handle-instructions></a-entity>
+
       <!-- Assets -->
       <a-assets>
         <a-asset-item id="rocket-model" src="./assets/models/rocket/scene.gltf"></a-asset-item>

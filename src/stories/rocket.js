@@ -4,6 +4,21 @@ class RocketApp {
   constructor() {
     this.isMarkerShown = false
     this.domEls = {}
+    this.domInstructions = null
+  }
+  init = () => {
+    this.domInstructions =  window.document.querySelector('#instructions')
+  }
+  /* Outer dom  */
+  showIntructions = () => {
+    if(this.domInstructions && this.domInstructions.style.visibility !== 'visible') {
+      this.domInstructions.style.visibility = 'visible'
+    }
+  }
+  hideIntructions = () => {
+    if(this.domInstructions && this.domInstructions.style.visibility !== 'hidden') {
+      this.domInstructions.style.visibility = 'hidden'
+    }
   }
   /* Marker */
   getMarkerShown = () => this.isMarkerShown
