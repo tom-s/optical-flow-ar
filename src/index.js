@@ -36,8 +36,8 @@ AFRAME.registerComponent('booster-fall', {
   tick: function() {
     const isShown = ROCKET.getMarkerShown()
     if (isShown){
-      ROCKET.motion(true)
-      this.el.setAttribute('position', {x:0,y:ROCKET.position/1000,z:0})
+      ROCKET.motion(false)
+      this.el.setAttribute('position', {x:0,y:ROCKET.position/10,z:0})
       console.log("tick", ROCKET.position, ROCKET.speed, this.el)
 
     }
