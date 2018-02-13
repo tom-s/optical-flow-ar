@@ -7,12 +7,15 @@ class Animation {
     onAnimationEnd,
     a = 150,
     b = 100,
-    m = 100,
+    m = 50,
     e = 0.7,
     x_offset = 250,
-    y_offset = 150
+    y_offset = 150,
+    endTime=100000,
+    startTime=-100
   }) {
-    this.time = 0
+    this.time = startTime
+    this.endTime = endTime
     this.last_x = 0
     this.last_y = 0
     this.a = a
@@ -69,6 +72,11 @@ class Animation {
       x: r* cos_f / RATIO,
       y: r*sin_f / RATIO
     }
+    if(this.time>this.endTime){
+      console.log("ANIMATION END")
+      this.animationEnd()
+    }
+    console.log("time", this.time)
     return this.lastTick
   }
 }
