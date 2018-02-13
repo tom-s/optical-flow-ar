@@ -1,11 +1,11 @@
 const MAX_HEIGHT = 1.5
 
 class Animation {
-  constructor({onAnimationEnd}) {
-    this.position = 0
-    this.speed = 1
-    this.acceleration = +9.8
-    this.thresholds = thresholds
+  constructor({onAnimationEnd, position, speed}) {
+    this.position = position
+    this.speed = speed
+    console.log("POSITION & SPEED", this.position, this.speed)
+    this.acceleration = +9.8 *0.001
     this.isPlaying = true
     this.onAnimationEnd = onAnimationEnd
     this.lastTick = {}
@@ -21,9 +21,10 @@ class Animation {
     this.position = this.position + this.speed * dt + this.acceleration * dt * dt / 2
     this.speed = this.speed + this.acceleration * dt
     this.lastTick =  {
-      position: this.position
+      position: this.position,
+      speed: this.speed,
+      acceleration : this.acceleration
     }
-    console.log(this.position, this.speed, this.acceleration)
     if (this.position<0){
       this.animationEnd()
     }

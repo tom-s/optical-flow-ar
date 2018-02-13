@@ -11,8 +11,7 @@
       Vise ton manuel !
     </div>
     <div class='rocket-ui' style="z-index: 100; visibility: hidden; position: fixed; top: 20px; right: 20px">
-      <button id='speed-display' style='display: block; width: 120px; height: 30px; margin-top: 20px;'>Vecteur vitesse</button>
-      <button id='force-display' style='display: block; width: 120px; height: 30px; margin-top: 20px;'>Vecteur force </button>
+      <button id='landing' style='display: block; width: 120px; height: 30px; margin-top: 20px;'>landing</button>
     </div>
     </button>
     <a-scene embedded arjs='trackingMethod: best;'>
@@ -31,15 +30,29 @@
 
       <a-marker type='pattern' url="./assets/custom-markers/rocket/pattern.patt" id="rocket-marker" register-events>
         <!-- Rocket -->
-        <a-entity anim-takeoff>
-          <a-gltf-model src="#rocket-model" scale="0.05 0.05 0.05">
-          </a-gltf-model>
-          <!-- Altitude counter -->
-         <a-entity look-at="[camera]" position="-0.5 0.5 0">
+        <a-entity scale="0.03 0.03 0.03"  anim-takeoff anim-restart>
+          <a-gltf-model src="#rocket-model"></a-gltf-model>
+        </a-entity>
+
+        <a-entity scale="0.03 0.03 0.03"  anim-takeoff anim-fall anim-landing>
+              <a-cylinder  height = "6" radius = "0.9" position="-1 0 0" booster-on></a-cylinder>
+              <a-cylinder  height = "6" radius = "0.9" position = "1 0 0" booster-on></a-cylinder>
+              <a-entity arrow  position = "0.1 0 0" length = "0" acceleration-vector></a-entity>
+              <a-entity arrow  position = "-0.1 0 0" length = "0" speed-vector></a-entity>
+
+        </a-entity>
+        <a-entity look-at="[camera]" position="-0.5 0.5 0">
             <a-text color="white" width="2" altitude-counter></a-text>
-            <a-text color="#ff9900" width="2.4" lineHeight="1" position="-1 -0.5 3" text-details></a-text>
-          </a-entity>
-          <a-entity arrow speed-vector></a-entity>
+            <a-text color="#ff9900" width="2.4" lineHeight="0.03" position="-1 0 3" text-details></a-text>
+        </a-entity>
+
+
+
+
+
+          <!-- Altitude counter -->
+
+
         </a-entity>
         <!--
           <a-entity anim-takeoff>
