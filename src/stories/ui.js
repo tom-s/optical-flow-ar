@@ -13,13 +13,17 @@ class Ui {
 
     // Add event listeners
     this.landingButton.addEventListener('click', onClickLanding)
+
   }
   // Hide and show all UI
-  toggle = () => {
+  show = () => {
     this.domEls.forEach(el => {
-      el.style.visibility = el.style.visibility === 'hidden'
-        ? 'visible'
-        : 'hidden'
+      el.style.visibility = 'visible'
+    })
+  }
+  hide = () => {
+    this.domEls.forEach(el => {
+      el.style.visibility = 'hidden'
     })
   }
 }
