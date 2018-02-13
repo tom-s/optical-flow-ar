@@ -1,21 +1,19 @@
 class Ui {
   constructor() {
     this.domEls = [] // all doms elements
-    this.displaySpeedButton = null
-    this.displayForceButton = null
+    this.landingButton = null
   }
   init = ({
-    onClickSpeed,
-    onClickForce
+    onClickLanding,
+
   }) => {
     // Useful dom elements
-    this.domEls = window.document.querySelectorAll('.rocket-ui')
-    this.displaySpeedButton = window.document.querySelector('#speed-display')
-    this.displayForceButton = window.document.querySelector('#force-display')
+    this.domEls =  window.document.querySelectorAll('.rocket-ui')
+    this.landingButton = window.document.querySelector('#landing')
 
     // Add event listeners
-    this.displaySpeedButton && this.displaySpeedButton.addEventListener('click', onClickSpeed)
-    this.displayForceButton && this.displayForceButton.addEventListener('click', onClickForce)
+    this.landingButton.addEventListener('click', onClickLanding)
+
   }
   // Hide and show all UI
   show = () => {

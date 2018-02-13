@@ -1,7 +1,8 @@
+
+import 'aframe-touch-rotation-controls'
+import RocketApp, { STEPS } from './stories/rocket'
 import 'aframe-look-at-component'
 import 'aframe-arrow-component'
-
-import RocketApp, { STEPS } from './stories/rocket'
 
 export const STEPS_DETAILS = {
   [STEPS.TAKE_OFF_END]: `Apres 195 secondes de vol, \n
@@ -15,6 +16,7 @@ const ROCKET = new RocketApp()
 window.addEventListener('load', () => {
   // Init rocket App
   ROCKET.init()
+
 })
 
 /* Marker tracking */
@@ -33,13 +35,46 @@ AFRAME.registerComponent('register-events', {
   }
 })
 
+
 /* Rocket takeoff */
 AFRAME.registerComponent('anim-takeoff', {
   tick: function() {
     const el = this.el
     const { position } = ROCKET.getAnimation('takeOff').tick()
     if(position) {
-      el.setAttribute('position', {x:0,y:position,z:0})
+      el.setAttribute('position', {y:position})
+    }
+  }
+})
+
+/* Rocket takeoff */
+AFRAME.registerComponent('anim-fall', {
+  tick: function() {
+    const el = this.el
+    const { position } = ROCKET.getAnimation('fall').tick()
+    if(position) {
+      el.setAttribute('position', {y:position})
+    }
+  }
+})
+
+AFRAME.registerComponent('anim-restart', {
+  tick: function() {
+    const el = this.el
+    const { position } = ROCKET.getAnimation('restart').tick()
+    if(position) {
+      el.setAttribute('position', {y:position})
+    }
+  }
+})
+
+/* Rocket takeoff */
+AFRAME.registerComponent('anim-landing', {
+  tick: function() {
+    const el = this.el
+    const { position } = ROCKET.getAnimation('landing').tick()
+    if(position) {
+      el.setAttribute('position', {y:position})
     }
   }
 })
@@ -69,8 +104,66 @@ AFRAME.registerComponent('text-details', {
 
 /* Vectors */
 AFRAME.registerComponent('speed-vector', {
-  tick: function() {
+  tick: function( ) {
+    const scale = 100
+    const isMarkerShown = ROCKET.getMarkerShown()
     const el = this.el
-    el.setAttribute('arrow', "direction: 0 1 0;")
+    let speed, position
+    const currentStep = ROCKET.getCurrentStep()
+    if (isMarkerShown){
+      if (currentStep=='boosterFall'){
+        speed = ROCKET.getAnimation('fall').getValue()['speed']
+      }
+      else if (currentStep=='boosterLanding'){
+        speed = ROCKET.getAnimation('landing').getValue()['speed']
+
+      }
+      else{
+        speed = 0
+      }
+      el.setAttribute('arrow', `direction: 0 ${speed} 0; length : ${scale*Math.abs(speed)} ; color : blue `)
+    }
   }
 })
+
+AFRAME.registerComponent('acceleration-vector', {
+  tick: function( ) {
+    const scale = 1000
+    const isMarkerShown = ROCKET.getMarkerShown()
+    const el = this.el
+    let acceleration
+    const currentStep = ROCKET.getCurrentStep()
+    if (isMarkerShown){
+      if (currentStep=='boosterFall'){
+        acceleration = ROCKET.getAnimation('fall').getValue()['acceleration']
+      }
+      else if (currentStep=='boosterLanding'){
+        acceleration = ROCKET.getAnimation('landing').getValue()['acceleration']
+      }
+      else{
+        acceleration = 0
+      }
+      el.setAttribute('arrow', `direction: 0 ${acceleration} 0; length : ${Math.abs(acceleration)*scale}; color : red`)
+    }
+  }
+})
+
+AFRAME.registerComponent('booster-on', {
+  tick: function() {
+    const el = this.el
+    const isMarkerShown = ROCKET.getMarkerShown()
+    if (isMarkerShown){
+      const booster = ROCKET.getBoosterOn()
+      console.log("booster", booster)
+      if(booster){
+        el.setAttribute("src", "./assets/models/texture/fire.png")
+      }
+      else{
+        el.setAttribute("src", "")
+        el.setAttribute("color", "white")
+      }
+    }
+  }
+})
+
+
