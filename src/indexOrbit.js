@@ -34,9 +34,20 @@ AFRAME.registerComponent('register-events', {
 AFRAME.registerComponent('text-details', {
   tick: function() {
     const el = this.el
-    const currentStep = ROCKET.getCurrentStep()
+    const currentStep = ORBIT.getCurrentStep()
     const stepDetails = STEPS_DETAILS[currentStep]
     el.setAttribute('value', stepDetails ? stepDetails : '')
+  }
+})
+
+/* Animated orbit */
+AFRAME.registerComponent('anim-orbit', {
+  tick: function() {
+    const el = this.el
+    const { x, y } = ORBIT.getAnimation('orbit').tick()
+    if(x || y) {
+      el.setAttribute('position', {x:x,y:0,z:y})
+    }
   }
 })
 

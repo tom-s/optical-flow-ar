@@ -1,5 +1,6 @@
 import get from 'lodash/get'
 import Ui from './ui'
+import OrbitAnimation from './animation/orbit'
 
 const TEXT_SHOW_DURATION = 5000
 
@@ -10,13 +11,16 @@ export const MARKERS = {
   ELLIPTIC: 'elliptic',
   SPACE: 'space'
 }
-export const STEPS = {
+
+const STEPS = {
   NONE: 'none',
+  ...MARKERS
 }
 
 class RocketApp {
   constructor() {
     this.ui = new Ui()
+    this.markerIndex = 0
 
     // Animations
     this.animations = {
@@ -53,7 +57,11 @@ class RocketApp {
 
   // Marker
   markerShow = id => {
+    this.markerIndex++
     this.markers[id].visible = true
+    this.markers[id].index = this.markerIndex
+    this.markers[id].id = id
+    this.ui.toggle()
     this.checkStep()
   }
   markerLost = id => {
@@ -62,10 +70,13 @@ class RocketApp {
   }
 
   checkStep = () => {
-    if(Object.values(this.markers).filter(marker => marker.visible).length === 2) {
+    console.log("visible", this.markers)
+    if(Object.values(this.markers).filter(marker => marker.visible).length >= 2) {
+      console.log("debug1")
       if(this.markers[MARKERS.EARTH].visible) {
+        console.log("debug2", Object.values(this.markers).filter(marker => marker.id !== MARKERS.EARTH && marker.visible).sort((a, b) => a.index - b.index))
         // Go to approriate step
-        const nextStep = get(Object.keys(this.markers).filter(id => id !== MARKERS.EARTH), 0)
+        const nextStep = get(Object.values(this.markers).filter(marker => marker.id !== MARKERS.EARTH && marker.visible).sort((a, b) => a.index - b.index), [0, 'id'])
         console.log("nextStep", nextStep)
         if(nextStep) this.goToStep(nextStep)
       }
@@ -76,8 +87,32 @@ class RocketApp {
     this.currentStep = step // update current step
     console.log("go to step", this.currentStep)
     // Switch
-    if(step === STEPS.NONE) {
+    if(step === MARKERS.NONE) {
       this.animations = {} // reset
+    }
+    if(step === MARKERS.CRASH) {
+      // Start animating
+      this.animations[step] = {
+        'orbit': new OrbitAnimation({})
+      }
+    }
+    if(step === MARKERS.GEO) {
+      // Start animating
+      this.animations[step] = {
+        'orbit': new OrbitAnimation({})
+      }
+    }
+    if(step === MARKERS.ELLIPTIC) {
+      // Start animating
+      this.animations[step] = {
+        'orbit': new OrbitAnimation({})
+      }
+    }
+    if(step === MARKERS.SPACE) {
+      // Start animating
+      this.animations[step] = {
+        'orbit': new OrbitAnimation({})
+      }
     }
   }
 }
