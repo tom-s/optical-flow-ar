@@ -58,7 +58,6 @@ AFRAME.registerComponent('hide-on-anim', {
   tick: function() {
     const el = this.el
     const { x, y } = ORBIT.getAnimation('orbit').getValue()
-    console.log("hide ?", x || y )
     el.setAttribute('visible', x || y ? false : true)
   }
 })
