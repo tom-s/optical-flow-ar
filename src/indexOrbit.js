@@ -4,7 +4,7 @@ import OrbitApp, { STEPS } from './stories/orbit'
 
 export const STEPS_DETAILS = {
   [STEPS.CRASH]: "Crash",
-  [STEPS.GEO]: "Geocentrique",
+  [STEPS.GEO]: "Circulaire",
   [STEPS.ELLIPTIC]: "Elliptique",
   [STEPS.SPACE]: "Perdu dans l'espace"
 }

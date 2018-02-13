@@ -100,14 +100,20 @@ class RocketApp {
     if(step === MARKERS.CRASH) {
       // Start animating
       this.animations[step] = {
-        'orbit': new OrbitAnimation({})
+        'orbit': new OrbitAnimation({
+          m:20,
+          startTime:-150,
+          endTime:-10,
+          e :0.9,
+          a:75
+        })
       }
     }
     if(step === MARKERS.GEO) {
       // Start animating
       this.animations[step] = {
         'orbit': new OrbitAnimation({
-          e: 0.0001
+          e: 0
         })
       }
     }
@@ -120,7 +126,12 @@ class RocketApp {
     if(step === MARKERS.SPACE) {
       // Start animating
       this.animations[step] = {
-        'orbit': new OrbitAnimation({})
+        'orbit': new OrbitAnimation({
+          e:0.9,
+          a:300,
+          m:10,
+          endTime: 10000
+        })
       }
     }
   }
