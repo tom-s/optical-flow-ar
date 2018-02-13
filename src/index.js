@@ -112,7 +112,7 @@ AFRAME.registerComponent('text-details', {
 /* Vectors */
 AFRAME.registerComponent('speed-vector', {
   tick: function( ) {
-    const scale = 100
+    const scale = 50
     const isMarkerShown = ROCKET.getMarkerShown()
     const el = this.el
     let speed, position
@@ -132,7 +132,7 @@ AFRAME.registerComponent('speed-vector', {
 
 AFRAME.registerComponent('acceleration-vector', {
   tick: function( ) {
-    const scale = 1000
+    const scale = 100
     const isMarkerShown = ROCKET.getMarkerShown()
     const el = this.el
     let acceleration
@@ -145,6 +145,7 @@ AFRAME.registerComponent('acceleration-vector', {
       } else{
         acceleration = 0
       }
+      console.log("acceleration", acceleration)
       el.setAttribute('arrow', `direction: 0 ${acceleration} 0; length : ${Math.abs(acceleration)*scale}; color : red`)
     }
   }

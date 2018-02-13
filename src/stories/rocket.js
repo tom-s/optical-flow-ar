@@ -4,7 +4,7 @@ import AnimationTakeOff from './animation/takeoff'
 import AnimationBoosterFall from './animation/fall'
 import AnimationBoosterLanding from './animation/landing'
 
-const TEXT_SHOW_DURATION = 5000
+const TEXT_SHOW_DURATION = 8000
 
 export const STEPS = {
   NONE: 'none',

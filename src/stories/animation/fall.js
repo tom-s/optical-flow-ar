@@ -4,7 +4,7 @@ class Animation {
   constructor({onAnimationEnd,end}) {
     this.position = MAX_HEIGHT
     this.speed = 0
-    this.acceleration = -9.8 *0.001
+    this.acceleration = -9.8 *0.01
     this.isPlaying = true
     this.onAnimationEnd = onAnimationEnd
     this.lastTick = {}
@@ -17,7 +17,7 @@ class Animation {
   }
 
   getValue = () => this.lastTick
-  tick = (dt = 0.1) => {
+  tick = (dt = 0.03) => {
     if(!this.isPlaying) return {}
     this.position = this.position + this.speed * dt + this.acceleration * dt * dt / 2
     this.speed = this.speed + this.acceleration * dt
