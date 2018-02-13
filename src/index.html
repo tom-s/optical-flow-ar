@@ -10,55 +10,36 @@
     <div id='instructions' class='rocket-ui' style='visibility: visible;color: white; position: fixed; width: 100%; text-align: center; top: 40%; font-size: 60px;'>
       Vise ton manuel !
     </div>
-    <div class='rocket-ui' style="z-index: 100; visibility: hidden; position: fixed; top: 20px; right: 20px">
+    <!--
+    <div style="z-index: 100; position: fixed; top: 20px; right: 20px">
       <button id='landing' style='display: block; width: 120px; height: 30px; margin-top: 20px;'>landing</button>
-    </div>
+    </div> -->
     </button>
-    <a-scene embedded arjs='trackingMethod: best;'>
+    <a-scene embedded arjs='trackingMethod: best;debugUIEnabled: false;'>
       <!-- Assets -->
       <a-assets>
         <a-asset-item id="rocket-model" src="./assets/models/rocket/scene.gltf"></a-asset-item>
        <!-- <video id="moon-video" autoplay loop="true" src="./assets/videos/moon.mp4"></video> -->
       </a-assets>
 
-      <!-- fall
-      <a-marker type='pattern' url="./assets/custom-markers/rocket/pattern.patt" id="rocket-marker" register-events>
-        <a-gltf-model src="#rocket-model" scale="0.01 0.01 0.01" booster-fall></a-gltf-model>
-        -->
-
       <!-- Rocket app -->
-
       <a-marker type='pattern' url="./assets/custom-markers/rocket/pattern.patt" id="rocket-marker" register-events>
         <!-- Rocket -->
-        <a-entity scale="0.03 0.03 0.03"  anim-takeoff anim-restart>
-          <a-gltf-model src="#rocket-model"></a-gltf-model>
+        <a-entity anim-takeoff anim-restart>
+          <a-gltf-model scale="0.03 0.03 0.03" src="#rocket-model"></a-gltf-model>
         </a-entity>
 
         <a-entity scale="0.03 0.03 0.03"  anim-takeoff anim-fall anim-landing>
-              <a-cylinder  height = "6" radius = "0.9" position="-1 0 0" booster-on></a-cylinder>
-              <a-cylinder  height = "6" radius = "0.9" position = "1 0 0" booster-on></a-cylinder>
-              <a-entity arrow  position = "0.1 0 0" length = "0" acceleration-vector></a-entity>
-              <a-entity arrow  position = "-0.1 0 0" length = "0" speed-vector></a-entity>
-
+          <a-cylinder  height = "6" radius = "0.9" position="-1 0 0" booster-on></a-cylinder>
+          <a-cylinder  height = "6" radius = "0.9" position = "1 0 0" booster-on></a-cylinder>
+          <a-entity arrow  position = "0.1 0 0" length = "0" acceleration-vector></a-entity>
+          <a-entity arrow  position = "-0.1 0 0" length = "0" speed-vector></a-entity>
         </a-entity>
+
         <a-entity look-at="[camera]" position="-0.5 0.5 0">
-            <a-text color="white" width="2" altitude-counter></a-text>
-            <a-text color="#ff9900" width="2.4" lineHeight="0.03" position="-1 0 3" text-details></a-text>
+          <a-text color="#FFFFFF" width="2.8" altitude-counter></a-text>
+          <a-text color="#ff9900" width="2.8" lineHeight="0.03" position="-0.5 0.5 0" text-details></a-text>
         </a-entity>
-
-
-
-
-
-          <!-- Altitude counter -->
-
-
-        </a-entity>
-        <!--
-          <a-entity anim-takeoff>
-            <a-cylinder  src ="https://i.imgur.com/mYmmbrp.jpg" height="5" radius="0.5"></a-cylinder>
-          </a-entity>
-        -->
       </a-marker>
 
       <!-- Define a static camera -->

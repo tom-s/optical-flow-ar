@@ -1,7 +1,6 @@
 class Animation {
   constructor({ onAnimationEnd,MAX_HEIGHT, START_POS }) {
     this.position = START_POS ? START_POS : 0
-    console.log("START_POS", START_POS, this.position)
     this.isPlaying = true
     this.onAnimationEnd = onAnimationEnd
     this.lastTick = {}
@@ -15,7 +14,7 @@ class Animation {
 
   tick = () => {
     if(!this.isPlaying) return {}
-    this.position = this.position + 1/100
+    this.position = this.position + 1/300
     if(this.position > this.MAX_HEIGHT) {
       this.animationEnd()
     }

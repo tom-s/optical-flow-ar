@@ -7,7 +7,10 @@ import 'aframe-arrow-component'
 export const STEPS_DETAILS = {
   [STEPS.TAKE_OFF_END]: `Apres 195 secondes de vol, \n
   les reacteurs d'appoint se decrochent \n
-  et commencent leur chute libre.`
+  et commencent leur chute libre.`,
+  [STEPS.FALL_END]: `Lors de la chute des propulseurs, \n
+  leurs moteurs principaux vont se rallumer \n
+  pour freiner leur chute et se poser en douceur`
 }
 
 // Create rocket app
@@ -16,7 +19,6 @@ const ROCKET = new RocketApp()
 window.addEventListener('load', () => {
   // Init rocket App
   ROCKET.init()
-
 })
 
 /* Marker tracking */
@@ -84,11 +86,16 @@ AFRAME.registerComponent('anim-landing', {
 AFRAME.registerComponent('altitude-counter', {
   tick: function() {
     const el = this.el
+    const currentStep = ROCKET.getCurrentStep()
     const { position, progress } = ROCKET.getAnimation('takeOff').getValue()
     if(position) {
-      const altitude = Math.round(60 * progress)
-      el.setAttribute('value', `${altitude} km`)
+      const altitude = Math.ceil(60 * progress)
+      el.setAttribute('value', `Altitude: ${altitude} km`)
     }
+    el.setAttribute('visible', currentStep === STEPS.TAKE_OFF
+      ? true
+      : false
+    )
   }
 })
 
@@ -105,20 +112,17 @@ AFRAME.registerComponent('text-details', {
 /* Vectors */
 AFRAME.registerComponent('speed-vector', {
   tick: function( ) {
-    const scale = 100
+    const scale = 50
     const isMarkerShown = ROCKET.getMarkerShown()
     const el = this.el
     let speed, position
     const currentStep = ROCKET.getCurrentStep()
     if (isMarkerShown){
-      if (currentStep=='boosterFall'){
+      if (currentStep== STEPS.BOOSTER_FALL){
         speed = ROCKET.getAnimation('fall').getValue()['speed']
-      }
-      else if (currentStep=='boosterLanding'){
+      } else if (currentStep==STEPS.BOOSTER_LANDING){
         speed = ROCKET.getAnimation('landing').getValue()['speed']
-
-      }
-      else{
+      } else{
         speed = 0
       }
       el.setAttribute('arrow', `direction: 0 ${speed} 0; length : ${scale*Math.abs(speed)} ; color : blue `)
@@ -128,19 +132,17 @@ AFRAME.registerComponent('speed-vector', {
 
 AFRAME.registerComponent('acceleration-vector', {
   tick: function( ) {
-    const scale = 1000
+    const scale = 100
     const isMarkerShown = ROCKET.getMarkerShown()
     const el = this.el
     let acceleration
     const currentStep = ROCKET.getCurrentStep()
     if (isMarkerShown){
-      if (currentStep=='boosterFall'){
+      if (currentStep==STEPS.BOOSTER_FALL){
         acceleration = ROCKET.getAnimation('fall').getValue()['acceleration']
-      }
-      else if (currentStep=='boosterLanding'){
+      } else if (currentStep==STEPS.BOOSTER_LANDING){
         acceleration = ROCKET.getAnimation('landing').getValue()['acceleration']
-      }
-      else{
+      } else{
         acceleration = 0
       }
       el.setAttribute('arrow', `direction: 0 ${acceleration} 0; length : ${Math.abs(acceleration)*scale}; color : red`)
@@ -154,11 +156,9 @@ AFRAME.registerComponent('booster-on', {
     const isMarkerShown = ROCKET.getMarkerShown()
     if (isMarkerShown){
       const booster = ROCKET.getBoosterOn()
-      console.log("booster", booster)
       if(booster){
         el.setAttribute("src", "./assets/models/texture/fire.png")
-      }
-      else{
+      } else{
         el.setAttribute("src", "")
         el.setAttribute("color", "white")
       }

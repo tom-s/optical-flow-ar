@@ -58,7 +58,6 @@ class RocketApp {
 
   // Marker
   markerShow = id => {
-    console.log("marker found",  id)
     this.markerIndex++
     this.markers[id].visible = true
     this.markers[id].index = this.markerIndex
@@ -67,7 +66,6 @@ class RocketApp {
     this.ui.hide()
   }
   markerLost = id => {
-    console.log("marker lost",  id)
     this.markers[id].visible = false
     if(Object.values(this.markers).filter(marker => marker.visible).length === 0) {
       this.ui.show()
