@@ -145,7 +145,6 @@ AFRAME.registerComponent('acceleration-vector', {
       } else{
         acceleration = 0
       }
-      console.log("acceleration", acceleration)
       el.setAttribute('arrow', `direction: 0 ${acceleration} 0; length : ${Math.abs(acceleration)*scale}; color : red`)
     }
   }

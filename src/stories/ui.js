@@ -12,7 +12,7 @@ class Ui {
     this.landingButton = window.document.querySelector('#landing')
 
     // Add event listeners
-    this.landingButton.addEventListener('click', onClickLanding)
+    this.landingButton && this.landingButton.addEventListener('click', onClickLanding)
 
   }
   // Hide and show all UI

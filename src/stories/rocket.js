@@ -80,7 +80,6 @@ class RocketApp {
 
   goToStep = (step) => {
     this.currentStep = step // update current step
-    console.log("go to step", step)
     // Switch
     if(step === STEPS.NONE) {
       this.animations = {} // reset
@@ -141,6 +140,12 @@ class RocketApp {
           },
           position : this.animations[STEPS.BOOSTER_FALL]['fall'].getValue()['position'],
           speed : this.animations[STEPS.BOOSTER_FALL]['fall'].getValue()['speed']
+        }),
+        'restart': new AnimationTakeOff({
+            onAnimationEnd: () => {
+            },
+            MAX_HEIGHT: 20,
+            START_POS: 1.94
         })
       }
     }
