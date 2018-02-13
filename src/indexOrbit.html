@@ -14,21 +14,30 @@
     <a-scene embedded arjs='trackingMethod: best;'>
       <!-- Assets -->
       <a-assets>
-        <a-asset-item id="earth" src="./assets/models/earth/scene.gltf"></a-asset-item>
-        <a-asset-item id="satellite" src="./assets/models/satellite/scene.gltf"></a-asset-item>
+        <a-asset-item id="earth-model" src="./assets/models/earth/scene.gltf"></a-asset-item>
+        <a-asset-item id="satellite-model" src="./assets/models/satellite/scene.gltf"></a-asset-item>
       </a-assets>
 
-
       <!-- Orbit app -->
-      <a-marker type='pattern' url="./assets/custom-markers/orbit/pattern1.patt" id="geo" register-events>
+      <a-marker type='pattern' url="./assets/custom-markers/orbit/earth.patt" id="earth" register-events>
+        <a-gltf-model src="#earth-model" position="0 0.4 0" scale="0.05 0.05 0.05">
+        </a-gltf-model>
       </a-marker>
-      <a-marker type='pattern' url="./assets/custom-markers/orbit/pattern2.patt" id="crash" register-events>
+      <a-marker type='pattern' url="./assets/custom-markers/orbit/satellite1.patt" id="geo" register-events>
+        <a-gltf-model src="#satellite-model" scale="0.1 0.1 0.1" position="0 0.4 0" scale="0.05 0.05 0.05">
+        </a-gltf-model>
       </a-marker>
-      <a-marker type='pattern' url="./assets/custom-markers/orbit/pattern3.patt" id="earth" register-events>
+      <a-marker type='pattern' url="./assets/custom-markers/orbit/satellite2.patt" id="crash" register-events>
+        <a-gltf-model src="#satellite-model" scale="0.1 0.1 0.1" position="0 0.4 0" scale="0.05 0.05 0.05">
+        </a-gltf-model>
       </a-marker>
-      <a-marker type='pattern' url="./assets/custom-markers/orbit/pattern4.patt" id="elliptic" register-events>
+      <a-marker type='pattern' url="./assets/custom-markers/orbit/satellite3.patt" id="elliptic" register-events>
+        <a-gltf-model src="#satellite-model" scale="0.1 0.1 0.1" position="0 0.4 0" scale="0.05 0.05 0.05">
+          </a-gltf-model>
       </a-marker>
-      <a-marker type='pattern' url="./assets/custom-markers/orbit/pattern5.patt" id="space" register-events>
+      <a-marker type='pattern' url="./assets/custom-markers/orbit/satellite4.patt" id="space" register-events>
+        <a-gltf-model src="#satellite-model" scale="0.1 0.1 0.1" position="0 0.4 0" scale="0.05 0.05 0.05">
+          </a-gltf-model>
       </a-marker>
 
       <!-- Define a static camera -->

@@ -48,8 +48,7 @@ class RocketApp {
   isMarkerShown = id => get(this.markers, [id]['visible'])
   getCurrentStep = () => this.currentStep
   getAnimation = id => get(this.animations, [this.currentStep, id], ({
-    tick: () => ({}),
-    getValue: () => ({})
+    tick: () => ({})
   }))
 
   // Marker
@@ -63,9 +62,12 @@ class RocketApp {
   }
 
   checkStep = () => {
-    if(Object.values(this.markers).filter(marker => marker.visible)).length === 2) {
+    if(Object.values(this.markers).filter(marker => marker.visible).length === 2) {
       if(this.markers[MARKERS.EARTH].visible) {
         // Go to approriate step
+        const nextStep = get(Object.keys(this.markers).filter(id => id !== MARKERS.EARTH), 0)
+        console.log("nextStep", nextStep)
+        if(nextStep) this.goToStep(nextStep)
       }
     }
   }
