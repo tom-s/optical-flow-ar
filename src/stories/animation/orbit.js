@@ -73,10 +73,8 @@ class Animation {
       y: r*sin_f / RATIO
     }
     if(this.time>this.endTime){
-      console.log("ANIMATION END")
       this.animationEnd()
     }
-    console.log("time", this.time)
     return this.lastTick
   }
 }
