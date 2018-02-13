@@ -77,7 +77,7 @@ class RocketApp {
     console.log("go to step", this.currentStep)
     // Switch
     if(step === STEPS.NONE) {
-      this.animatons = {} // reset
+      this.animations = {} // reset
     }
     if(step === STEPS.TAKE_OFF) {
       // Start animating

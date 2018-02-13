@@ -9,20 +9,23 @@ class Ui {
     onClickForce
   }) => {
     // Useful dom elements
-    this.domEls =  window.document.querySelectorAll('.rocket-ui')
+    this.domEls = window.document.querySelectorAll('.rocket-ui')
     this.displaySpeedButton = window.document.querySelector('#speed-display')
     this.displayForceButton = window.document.querySelector('#force-display')
 
     // Add event listeners
-    this.displaySpeedButton.addEventListener('click', onClickSpeed)
-    this.displayForceButton.addEventListener('click', onClickForce)
+    this.displaySpeedButton && this.displaySpeedButton.addEventListener('click', onClickSpeed)
+    this.displayForceButton && this.displayForceButton.addEventListener('click', onClickForce)
   }
   // Hide and show all UI
-  toggle = () => {
+  show = () => {
     this.domEls.forEach(el => {
-      el.style.visibility = el.style.visibility === 'hidden'
-        ? 'visible'
-        : 'hidden'
+      el.style.visibility = 'visible'
+    })
+  }
+  hide = () => {
+    this.domEls.forEach(el => {
+      el.style.visibility = 'hidden'
     })
   }
 }

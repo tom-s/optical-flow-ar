@@ -1,12 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   context: __dirname + "/src",
-  entry: "./index",
   output: {
     path: __dirname + "/dist",
     filename: "bundle.js"
@@ -32,12 +30,7 @@ module.exports = {
     new CopyWebpackPlugin([
       { from: 'assets', to: 'assets' },
       { from: 'data', to: 'data' }
-    ]),
-    new HtmlWebpackPlugin({
-      title: '#balancetonPOC',
-      template: 'index.html',
-      inject: "head"
-    }),
+    ])
   ],
   output: {
     filename: '[name].bundle.js',
