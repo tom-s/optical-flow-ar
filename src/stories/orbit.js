@@ -33,11 +33,11 @@ class RocketApp {
 
     // Marker display
     this.markers = {
-      [MARKERS.EARTH]: { visible: false },
-      [MARKERS.CRASH]: { visible: false },
-      [MARKERS.GEO]: { visible: false },
-      [MARKERS.ELLIPTIC]: { visible: false },
-      [MARKERS.SPACE]: { visible: false }
+      [MARKERS.EARTH]: { id: MARKERS.EARTH, visible: false },
+      [MARKERS.CRASH]: { id: MARKERS.CRASH, visible: false },
+      [MARKERS.GEO]: { id: MARKERS.GEO, visible: false },
+      [MARKERS.ELLIPTIC]: { id: MARKERS.ELLIPTIC, visible: false },
+      [MARKERS.SPACE]: { id: MARKERS.SPACE, visible: false }
     }
 
     // App state
@@ -52,7 +52,8 @@ class RocketApp {
   isMarkerShown = id => get(this.markers, [id]['visible'])
   getCurrentStep = () => this.currentStep
   getAnimation = id => get(this.animations, [this.currentStep, id], ({
-    tick: () => ({})
+    tick: () => ({}),
+    getValue: () => ({})
   }))
 
   // Marker
@@ -61,25 +62,32 @@ class RocketApp {
     this.markers[id].visible = true
     this.markers[id].index = this.markerIndex
     this.markers[id].id = id
-    this.ui.toggle()
     this.checkStep()
+    this.ui.hide()
   }
   markerLost = id => {
-    this.markers[id].visible = true
+    this.markers[id].visible = false
+    if(Object.values(this.markers).filter(marker => marker.visible).length === 0) {
+      this.ui.show()
+    }
     this.checkStep()
   }
 
   checkStep = () => {
-    console.log("visible", this.markers)
+    let noStep = true
     if(Object.values(this.markers).filter(marker => marker.visible).length >= 2) {
-      console.log("debug1")
       if(this.markers[MARKERS.EARTH].visible) {
-        console.log("debug2", Object.values(this.markers).filter(marker => marker.id !== MARKERS.EARTH && marker.visible).sort((a, b) => a.index - b.index))
         // Go to approriate step
         const nextStep = get(Object.values(this.markers).filter(marker => marker.id !== MARKERS.EARTH && marker.visible).sort((a, b) => a.index - b.index), [0, 'id'])
-        console.log("nextStep", nextStep)
-        if(nextStep) this.goToStep(nextStep)
+        if(nextStep) {
+          noStep = false
+          console.log("debug", this.markers)
+          this.goToStep(nextStep)
+        }
       }
+    }
+    if(noStep) {
+      this.goToStep(STEPS.NONE)
     }
   }
 
@@ -87,7 +95,7 @@ class RocketApp {
     this.currentStep = step // update current step
     console.log("go to step", this.currentStep)
     // Switch
-    if(step === MARKERS.NONE) {
+    if(step === STEPS.NONE) {
       this.animations = {} // reset
     }
     if(step === MARKERS.CRASH) {

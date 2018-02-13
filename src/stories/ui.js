@@ -18,11 +18,14 @@ class Ui {
     this.displayForceButton && this.displayForceButton.addEventListener('click', onClickForce)
   }
   // Hide and show all UI
-  toggle = () => {
+  show = () => {
     this.domEls.forEach(el => {
-      el.style.visibility = el.style.visibility === 'hidden'
-        ? 'visible'
-        : 'hidden'
+      el.style.visibility = 'visible'
+    })
+  }
+  hide = () => {
+    this.domEls.forEach(el => {
+      el.style.visibility = 'hidden'
     })
   }
 }

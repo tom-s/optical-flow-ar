@@ -45,9 +45,22 @@ AFRAME.registerComponent('anim-orbit', {
   tick: function() {
     const el = this.el
     const { x, y } = ORBIT.getAnimation('orbit').tick()
+    el.setAttribute('visible', x || y ? true : false)
     if(x || y) {
       el.setAttribute('position', {x:x,y:0,z:y})
     }
   }
 })
+
+/* Hide models on animation */
+/* Animated orbit */
+AFRAME.registerComponent('hide-on-anim', {
+  tick: function() {
+    const el = this.el
+    const { x, y } = ORBIT.getAnimation('orbit').getValue()
+    console.log("hide ?", x || y )
+    el.setAttribute('visible', x || y ? false : true)
+  }
+})
+
 

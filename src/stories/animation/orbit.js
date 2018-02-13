@@ -24,13 +24,15 @@ class Animation {
 
     this.isPlaying = true
     this.onAnimationEnd = onAnimationEnd
+
+    this.lastTick = {}
   }
   animationEnd = () => {
     this.isPlaying = false
     this.onAnimationEnd && this.onAnimationEnd()
   }
+  getValue = () => this.lastTick
   tick = () => {
-    console.log("this.isPlaying", this.isPlaying)
     if(!this.isPlaying) return {}
     var focus_x = this.x_offset + this.a*this.e
     var focus_y = this.y_offset
@@ -62,10 +64,12 @@ class Animation {
     // animate
     this.last_x = focus_x + r*cos_f
     this.last_y = focus_y + r*sin_f
-    return {
+
+    this.lastTick = {
       x: r* cos_f / RATIO,
       y: r*sin_f / RATIO
     }
+    return this.lastTick
   }
 }
 
