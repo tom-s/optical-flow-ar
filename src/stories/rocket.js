@@ -27,7 +27,6 @@ class RocketApp {
       [STEPS.TAKE_OFF_END]: null,
       [STEPS.BOOSTER_FALL]: null,
       [STEPS.BOOSTER_LANDING]: null,
-      [STEPS.BOOSTER_LANDING]: null,
     }
 
     this.boosterOn = {
@@ -35,6 +34,7 @@ class RocketApp {
       [STEPS.TAKE_OFF]: true,
       [STEPS.TAKE_OFF_END]: false,
       [STEPS.BOOSTER_FALL]: false,
+      [STEPS.BOOSTER_FALL_END]: false,
       [STEPS.BOOSTER_LANDING]: true,
     }
 
@@ -42,7 +42,7 @@ class RocketApp {
     this.isMarkerShown = false
 
     // Vectors display
-    this.landing=false
+    this.landing = true
 
     // App state
     this.currentStep = STEPS.NONE
@@ -69,12 +69,12 @@ class RocketApp {
   // Marker
   markerShow = () => {
     this.isMarkerShown = true
-    this.ui.toggle()
+    this.ui.hide()
     this.goToStep(STEPS.TAKE_OFF)
   }
   markerLost = () => {
     this.isMarkerShown = false
-    this.ui.toggle()
+    this.ui.show()
     this.goToStep(STEPS.NONE)
   }
 
@@ -104,14 +104,17 @@ class RocketApp {
       }, TEXT_SHOW_DURATION)
     }
 
-    if(step === STEPS.BOOSTER_FALL && this.landing) {
+    if(step === STEPS.BOOSTER_FALL) {
       // Start animating
       this.animations[step] = {
         'fall': new AnimationBoosterFall({
           onAnimationEnd: () => {
-            this.goToStep(STEPS.BOOSTER_LANDING)
+            this.goToStep(this.landing
+              ? STEPS.BOOSTER_FALL_END
+              : STEPS.ENDING
+            )
           },
-          'end' : 0.5
+          'end' : this.landing ? 0.5 : 0
         }),
         'restart': new AnimationTakeOff({
             onAnimationEnd: () => {
@@ -121,22 +124,12 @@ class RocketApp {
         })
       }
     }
-    if(step === STEPS.BOOSTER_FALL && !this.landing) {
-      // Start animating
-      this.animations[step] = {
-        'fall': new AnimationBoosterFall({
-          onAnimationEnd: () => {
-            this.goToStep(STEPS.ENDING)
-          },
-          'end' : 0
-        }),
-        'restart': new AnimationTakeOff({
-            onAnimationEnd: () => {
-            },
-            MAX_HEIGHT: 10,
-            START_POS: 1.5
-        })
-      }
+
+    if(step === STEPS.BOOSTER_FALL_END) {
+      // Trigger timeout
+      window.setTimeout(() => {
+        this.goToStep(STEPS.BOOSTER_LANDING)
+      }, TEXT_SHOW_DURATION)
     }
 
     if(step === STEPS.BOOSTER_LANDING) {
