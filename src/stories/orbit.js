@@ -12,7 +12,7 @@ export const MARKERS = {
   SPACE: 'space'
 }
 
-const STEPS = {
+export const STEPS = {
   NONE: 'none',
   ...MARKERS
 }
@@ -58,6 +58,7 @@ class RocketApp {
 
   // Marker
   markerShow = id => {
+    console.log("marker found",  id)
     this.markerIndex++
     this.markers[id].visible = true
     this.markers[id].index = this.markerIndex
@@ -66,6 +67,7 @@ class RocketApp {
     this.ui.hide()
   }
   markerLost = id => {
+    console.log("marker lost",  id)
     this.markers[id].visible = false
     if(Object.values(this.markers).filter(marker => marker.visible).length === 0) {
       this.ui.show()
@@ -81,7 +83,6 @@ class RocketApp {
         const nextStep = get(Object.values(this.markers).filter(marker => marker.id !== MARKERS.EARTH && marker.visible).sort((a, b) => a.index - b.index), [0, 'id'])
         if(nextStep) {
           noStep = false
-          console.log("debug", this.markers)
           this.goToStep(nextStep)
         }
       }
@@ -107,7 +108,9 @@ class RocketApp {
     if(step === MARKERS.GEO) {
       // Start animating
       this.animations[step] = {
-        'orbit': new OrbitAnimation({})
+        'orbit': new OrbitAnimation({
+          e: 0.0001
+        })
       }
     }
     if(step === MARKERS.ELLIPTIC) {

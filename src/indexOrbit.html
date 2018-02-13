@@ -22,6 +22,9 @@
       <a-marker type='pattern' url="./assets/custom-markers/orbit/earth.patt" id="earth" register-events>
         <a-gltf-model src="#earth-model" position="0 0.4 0" scale="0.05 0.05 0.05">
         </a-gltf-model>
+        <a-entity look-at="[camera]">
+          <a-text color="red" width="2" position="0 0.7 1" show-on-anim text-orbit></a-text>
+        </a-entity>
          <!-- Animated orbit -->
          <a-entity anim-orbit>
             <a-gltf-model src="#satellite-model" scale="0.1 0.1 0.1" position="0 0.4 0" scale="0.05 0.05 0.05">
