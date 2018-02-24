@@ -2,11 +2,13 @@
   <head>
   <!-- AR.js by @jerome_etienne - github: https://github.com/jeromeetienne/ar.js - info: https://medium.com/arjs/augmented-reality-in-10-lines-of-html-4e193ea9fdbf -->
   <!-- Use https://jeromeetienne.github.io/AR.js/three.js/examples/marker-training/examples/generator.html for custom pattern, the webx link is broken -->
-  <script src="./assets/scripts/oflow.js"></script>
   <script src="./assets/scripts/aframe.min.js"></script>
+  <script src="./assets/scripts/jsfeat.min.js"></script>
+  <script src="./assets/scripts/profiler.js"></script>
+  <script src="./assets/scripts/dat-gui.min.js"></script>
   </head>
   <body style='margin : 0px; overflow: hidden;'>
-    <video id="video" />
-    <canvas id="canvas" />
+    <video id="video" style="display:none"></video>
+    <canvas id="canvas"></canvas>
   </body>
 </html>

@@ -1,54 +1,20 @@
+import FlowCalculator from './assets/scripts/oflow/flowCalculator'
+
+
 // Constants
 const WIDTH = 640
 const HEIGHT = 480
 const ZONE_SIZE = 10
 const FRAMES_X = 10
+
+// Code
+let calculator, video, canvas, ctx, ctx2, ticks = 0, oldImage, trackingPoints = []
+
 const constraints = {
   audio: false,
   video: true
 }
 
-// Code
-let video, canvas, ctx, ctx2, ticks = 0, trackingPoints = []
-let stat, gui,options, curr_img_pyr, prev_img_pyr, point_count, point_status, prev_xy, curr_xy
-
-class demo_opt {
-  constructor() {
-    this.win_size = 20
-    this.max_iterations = 30
-    this.epsilon = 0.01
-    this.min_eigen = 0.001
-  }
-}
-
-
-const initJsFeat = () => {
-  stat = new profiler()
-  ctx.fillStyle = "rgb(0,255,0)";
-  ctx.strokeStyle = "rgb(0,255,0)";
-
-  curr_img_pyr = new jsfeat.pyramid_t(3);
-  prev_img_pyr = new jsfeat.pyramid_t(3);
-  curr_img_pyr.allocate(640, 480, jsfeat.U8_t|jsfeat.C1_t);
-  prev_img_pyr.allocate(640, 480, jsfeat.U8_t|jsfeat.C1_t);
-
-  point_count = 0;
-  point_status = new Uint8Array(100);
-  prev_xy = new Float32Array(100*2);
-  curr_xy = new Float32Array(100*2);
-
-  options = new demo_opt();
-  gui = new dat.GUI();
-
-  gui.add(options, 'win_size', 7, 30).step(1);
-  gui.add(options, 'max_iterations', 3, 30).step(1);
-  gui.add(options, 'epsilon', 0.001, 0.1).step(0.0025);
-  gui.add(options, 'min_eigen', 0.001, 0.01).step(0.0025);
-
-  stat.add("grayscale");
-  stat.add("build image pyramid");
-  stat.add("optical flow lk");
-}
 
 const getCursorPosition = event => {
   const rect = canvas.getBoundingClientRect()
@@ -62,7 +28,24 @@ const getCursorPosition = event => {
 }
 
 const calculate = () => {
-
+  const newImage = ctx.getImageData(0, 0, WIDTH, HEIGHT).data
+  if (oldImage && newImage) {
+    const zones = calculator.calculate(oldImage, newImage, WIDTH, HEIGHT)
+    // Update tracking points
+    trackingPoints = trackingPoints.map((point, i) => {
+      let zoneIndex = null
+      const trackZone = zones.zones.forEach((zone, i) => {
+        if (zone.x - ZONE_SIZE >= point.x && point.x <= zone.x)
+          && (zone.y - ZONE_SIZE >= point.y && point.y <= zone.y) {
+            zoneIndex = i
+          }
+      })
+      console.log("trackZone", trackZone)
+      // Return updated coordinates
+      return point
+    })
+  }
+  oldImage = newImage
 }
 
 const tick = () => {
@@ -90,16 +73,14 @@ const handleSuccess = (stream) => {
   window.stream = stream; // make stream available to browser console
   video.srcObject = stream
 
-  // Init jsfeat
-  initJsFeat()
+  // Instanciate
+  calculator = new FlowCalculator(ZONE_SIZE)
 
   // LIsten to click
   canvas.addEventListener('click', (e) => {
     const point = getCursorPosition(e)
     trackingPoints.push(point)
   }, false)
-
-
 
   // Starts capturing the flow from webcamera:
   window.requestAnimationFrame(tick)
