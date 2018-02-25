@@ -2,7 +2,7 @@
 const WIDTH = 640
 const HEIGHT = 480
 const ZONE_SIZE = 10
-const FRAMES_X = 10
+const FRAMES_X = 1
 const constraints = {
   audio: false,
   video: true
@@ -56,8 +56,7 @@ const getCursorPosition = event => {
   const y = event.clientY - rect.top
   return {
     x,
-    y,
-    zone: null
+    y
   }
 }
 
@@ -69,17 +68,69 @@ const tick = () => {
   ticks++
   window.requestAnimationFrame(tick)
   if (ticks % FRAMES_X !== 0) return
-  ctx.drawImage(video, 0, 0, 640, 480)
 
-  // Update coordinates
-  calculate()
+  stat.new_frame()
+  ctx.drawImage(video, 0, 0, 640, 480);
+  var imageData = ctx.getImageData(0, 0, 640, 480);
 
-  // Draw points of interests
-  trackingPoints.forEach(({x, y}) => {
-    ctx.fillStyle = "red"
-    ctx.fillRect(x, y, 5, 5)
-  })
+  // swap flow data
+  var _pt_xy = prev_xy;
+  prev_xy = curr_xy;
+  curr_xy = _pt_xy;
+  var _pyr = prev_img_pyr;
+  prev_img_pyr = curr_img_pyr;
+  curr_img_pyr = _pyr;
+
+  stat.start("grayscale");
+  jsfeat.imgproc.grayscale(imageData.data, 640, 480, curr_img_pyr.data[0]);
+  stat.stop("grayscale");
+
+  stat.start("build image pyramid");
+  curr_img_pyr.build(curr_img_pyr.data[0], true);
+  stat.stop("build image pyramid");
+
+  stat.start("optical flow lk");
+  jsfeat.optical_flow_lk.track(prev_img_pyr, curr_img_pyr, prev_xy, curr_xy, point_count, options.win_size|0, options.max_iterations|0, point_status, options.epsilon, options.min_eigen);
+  stat.stop("optical flow lk");
+
+  prune_oflow_points(ctx)
+
+  // Update loc
+  document.querySelector('#log').innerHTML = (stat.log() + '<br/>click to add tracking points: ' + point_count);
 }
+
+function on_canvas_click(e) {
+  const coords = getCursorPosition(e)
+  curr_xy[point_count<<1] = coords.x;
+  curr_xy[(point_count<<1)+1] = coords.y;
+  point_count++;
+  console.log("click")
+}
+
+
+function draw_circle(ctx, x, y) {
+  ctx.beginPath();
+  ctx.arc(x, y, 4, 0, Math.PI*2, true);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function prune_oflow_points(ctx) {
+  var n = point_count;
+  var i=0,j=0;
+  for(; i < n; ++i) {
+      if(point_status[i] == 1) {
+          if(j < i) {
+              curr_xy[j<<1] = curr_xy[i<<1];
+              curr_xy[(j<<1)+1] = curr_xy[(i<<1)+1];
+          }
+          draw_circle(ctx, curr_xy[j<<1], curr_xy[(j<<1)+1]);
+          ++j;
+      }
+  }
+  point_count = j;
+}
+
 
 const handleSuccess = (stream) => {
   video = document.querySelector('#video')
@@ -94,12 +145,7 @@ const handleSuccess = (stream) => {
   initJsFeat()
 
   // LIsten to click
-  canvas.addEventListener('click', (e) => {
-    const point = getCursorPosition(e)
-    trackingPoints.push(point)
-  }, false)
-
-
+  canvas.addEventListener('click', on_canvas_click, false)
 
   // Starts capturing the flow from webcamera:
   window.requestAnimationFrame(tick)
