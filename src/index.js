@@ -1,5 +1,3 @@
-const turf = require('@turf/turf')
-
 // Constants
 const WIDTH = 640
 const HEIGHT = 480
@@ -114,27 +112,27 @@ const onCanvasClick = e => {
   curr_xy[point_count<<1] = coords.x
   curr_xy[(point_count<<1)+1] = coords.y
   point_count++
+
   if(point_count === 4) {
     const polygon = [
-      [curr_xy.slice(0,1)[0], curr_xy.slice(1,2)[0]],
-      [curr_xy.slice(2,3)[0], curr_xy.slice(3,4)[0]],
-      [curr_xy.slice(4,5)[0], curr_xy.slice(5,6)[0]],
-      [curr_xy.slice(6,7)[0], curr_xy.slice(7,8)[0]],
-      [curr_xy.slice(0,1)[0], curr_xy.slice(1,2)[0]]
+      { x: curr_xy.slice(0,1)[0], y: curr_xy.slice(1,2)[0]},
+      { x: curr_xy.slice(2,3)[0], y: curr_xy.slice(3,4)[0]},
+      { x: curr_xy.slice(4,5)[0], y: curr_xy.slice(5,6)[0]},
+      { x: curr_xy.slice(6,7)[0], y: curr_xy.slice(7,8)[0]},
+      { x: curr_xy.slice(0,1)[0], y: curr_xy.slice(1,2)[0]}
     ]
-    for(var i=0; i<= WIDTH; i=i+ZONE_SIZE) {
-      for(var j=0; j<= HEIGHT; j=j+ZONE_SIZE) {
-        var pt = turf.point([i,j])
-        var poly = turf.polygon([polygon])
-        if(turf.booleanPointInPolygon(pt, poly)) {
+
+    /*
+    for(var i=0; i<= WIDTH; i=i+ZONE_SIZE/2) {
+      for(var j=0; j<= HEIGHT; j=j+ZONE_SIZE/2) {
+        if(isPointInPoly(polygon, {x: i, y:j})) {
           curr_xy[point_count<<1] = i
           curr_xy[(point_count<<1)+1] = j
           point_count++
         }
       }
-    }
+    }**/
   }
-  console.log("click")
 }
 
 
