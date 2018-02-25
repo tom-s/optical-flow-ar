@@ -1,3 +1,5 @@
+const turf = require('@turf/turf')
+
 // Constants
 const WIDTH = 640
 const HEIGHT = 480
@@ -21,33 +23,50 @@ class demo_opt {
   }
 }
 
+const inPolygon = (point, vs) => {
+  // ray-casting algorithm based on
+  // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+  const x = point[0], y = point[1]
+  let inside = false
+  for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+    var xi = vs[i][0], yi = vs[i][1]
+    var xj = vs[j][0], yj = vs[j][1]
+
+    var intersect = ((yi > y) != (yj > y))
+        && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)
+    if (intersect) inside = !inside
+  }
+
+  return inside
+}
+
 
 const initJsFeat = () => {
   stat = new profiler()
-  ctx.fillStyle = "rgb(0,255,0)";
-  ctx.strokeStyle = "rgb(0,255,0)";
+  ctx.fillStyle = "rgb(0,255,0)"
+  ctx.strokeStyle = "rgb(0,255,0)"
 
-  curr_img_pyr = new jsfeat.pyramid_t(3);
-  prev_img_pyr = new jsfeat.pyramid_t(3);
-  curr_img_pyr.allocate(640, 480, jsfeat.U8_t|jsfeat.C1_t);
-  prev_img_pyr.allocate(640, 480, jsfeat.U8_t|jsfeat.C1_t);
+  curr_img_pyr = new jsfeat.pyramid_t(3)
+  prev_img_pyr = new jsfeat.pyramid_t(3)
+  curr_img_pyr.allocate(640, 480, jsfeat.U8_t|jsfeat.C1_t)
+  prev_img_pyr.allocate(640, 480, jsfeat.U8_t|jsfeat.C1_t)
 
-  point_count = 0;
-  point_status = new Uint8Array(100);
-  prev_xy = new Float32Array(100*2);
-  curr_xy = new Float32Array(100*2);
+  point_count = 0
+  point_status = new Uint8Array(100)
+  prev_xy = new Float32Array(100*2)
+  curr_xy = new Float32Array(100*2)
 
-  options = new demo_opt();
-  gui = new dat.GUI();
+  options = new demo_opt()
+  gui = new dat.GUI()
 
-  gui.add(options, 'win_size', 7, 30).step(1);
-  gui.add(options, 'max_iterations', 3, 30).step(1);
-  gui.add(options, 'epsilon', 0.001, 0.1).step(0.0025);
-  gui.add(options, 'min_eigen', 0.001, 0.01).step(0.0025);
+  gui.add(options, 'win_size', 7, 30).step(1)
+  gui.add(options, 'max_iterations', 3, 30).step(1)
+  gui.add(options, 'epsilon', 0.001, 0.1).step(0.0025)
+  gui.add(options, 'min_eigen', 0.001, 0.01).step(0.0025)
 
-  stat.add("grayscale");
-  stat.add("build image pyramid");
-  stat.add("optical flow lk");
+  stat.add("grayscale")
+  stat.add("build image pyramid")
+  stat.add("optical flow lk")
 }
 
 const getCursorPosition = event => {
@@ -70,65 +89,85 @@ const tick = () => {
   if (ticks % FRAMES_X !== 0) return
 
   stat.new_frame()
-  ctx.drawImage(video, 0, 0, 640, 480);
-  var imageData = ctx.getImageData(0, 0, 640, 480);
+  ctx.drawImage(video, 0, 0, 640, 480)
+  var imageData = ctx.getImageData(0, 0, 640, 480)
 
   // swap flow data
-  var _pt_xy = prev_xy;
-  prev_xy = curr_xy;
-  curr_xy = _pt_xy;
-  var _pyr = prev_img_pyr;
-  prev_img_pyr = curr_img_pyr;
-  curr_img_pyr = _pyr;
+  var _pt_xy = prev_xy
+  prev_xy = curr_xy
+  curr_xy = _pt_xy
+  var _pyr = prev_img_pyr
+  prev_img_pyr = curr_img_pyr
+  curr_img_pyr = _pyr
 
-  stat.start("grayscale");
-  jsfeat.imgproc.grayscale(imageData.data, 640, 480, curr_img_pyr.data[0]);
-  stat.stop("grayscale");
+  stat.start("grayscale")
+  jsfeat.imgproc.grayscale(imageData.data, 640, 480, curr_img_pyr.data[0])
+  stat.stop("grayscale")
 
-  stat.start("build image pyramid");
-  curr_img_pyr.build(curr_img_pyr.data[0], true);
-  stat.stop("build image pyramid");
+  stat.start("build image pyramid")
+  curr_img_pyr.build(curr_img_pyr.data[0], true)
+  stat.stop("build image pyramid")
 
-  stat.start("optical flow lk");
-  jsfeat.optical_flow_lk.track(prev_img_pyr, curr_img_pyr, prev_xy, curr_xy, point_count, options.win_size|0, options.max_iterations|0, point_status, options.epsilon, options.min_eigen);
-  stat.stop("optical flow lk");
+  stat.start("optical flow lk")
+  jsfeat.optical_flow_lk.track(prev_img_pyr, curr_img_pyr, prev_xy, curr_xy, point_count, options.win_size|0, options.max_iterations|0, point_status, options.epsilon, options.min_eigen)
+  stat.stop("optical flow lk")
 
   prune_oflow_points(ctx)
 
   // Update loc
-  document.querySelector('#log').innerHTML = (stat.log() + '<br/>click to add tracking points: ' + point_count);
+  document.querySelector('#log').innerHTML = (stat.log() + '<br/>click to add tracking points: ' + point_count)
 }
 
-function on_canvas_click(e) {
+const onCanvasClick = e => {
   const coords = getCursorPosition(e)
-  curr_xy[point_count<<1] = coords.x;
-  curr_xy[(point_count<<1)+1] = coords.y;
-  point_count++;
+  curr_xy[point_count<<1] = coords.x
+  curr_xy[(point_count<<1)+1] = coords.y
+  point_count++
+  if(point_count === 4) {
+    const polygon = [
+      [curr_xy.slice(0,1)[0], curr_xy.slice(1,2)[0]],
+      [curr_xy.slice(2,3)[0], curr_xy.slice(3,4)[0]],
+      [curr_xy.slice(4,5)[0], curr_xy.slice(5,6)[0]],
+      [curr_xy.slice(6,7)[0], curr_xy.slice(7,8)[0]],
+      [curr_xy.slice(0,1)[0], curr_xy.slice(1,2)[0]]
+    ]
+    for(var i=0; i<= WIDTH; i=i+ZONE_SIZE) {
+      for(var j=0; j<= HEIGHT; j=j+ZONE_SIZE) {
+        var pt = turf.point([i,j])
+        var poly = turf.polygon([polygon])
+        if(turf.booleanPointInPolygon(pt, poly)) {
+          curr_xy[point_count<<1] = i
+          curr_xy[(point_count<<1)+1] = j
+          point_count++
+        }
+      }
+    }
+  }
   console.log("click")
 }
 
 
 function draw_circle(ctx, x, y) {
-  ctx.beginPath();
-  ctx.arc(x, y, 4, 0, Math.PI*2, true);
-  ctx.closePath();
-  ctx.fill();
+  ctx.beginPath()
+  ctx.arc(x, y, 4, 0, Math.PI*2, true)
+  ctx.closePath()
+  ctx.fill()
 }
 
 function prune_oflow_points(ctx) {
-  var n = point_count;
-  var i=0,j=0;
-  for(; i < n; ++i) {
+  var n = point_count
+  var j=0
+  for( var i=0;i < n; ++i) {
       if(point_status[i] == 1) {
           if(j < i) {
-              curr_xy[j<<1] = curr_xy[i<<1];
-              curr_xy[(j<<1)+1] = curr_xy[(i<<1)+1];
+              curr_xy[j<<1] = curr_xy[i<<1]
+              curr_xy[(j<<1)+1] = curr_xy[(i<<1)+1]
           }
-          draw_circle(ctx, curr_xy[j<<1], curr_xy[(j<<1)+1]);
-          ++j;
+          draw_circle(ctx, curr_xy[j<<1], curr_xy[(j<<1)+1])
+          ++j
       }
   }
-  point_count = j;
+  point_count = j
 }
 
 
@@ -138,23 +177,21 @@ const handleSuccess = (stream) => {
   ctx = canvas.getContext('2d')
   canvas.width = WIDTH
   canvas.height = HEIGHT
-  window.stream = stream; // make stream available to browser console
+  window.stream = stream // make stream available to browser console
   video.srcObject = stream
 
   // Init jsfeat
   initJsFeat()
 
   // LIsten to click
-  canvas.addEventListener('click', on_canvas_click, false)
+  canvas.addEventListener('click', onCanvasClick, false)
 
   // Starts capturing the flow from webcamera:
   window.requestAnimationFrame(tick)
 }
 
 const handleError = (error) => {
-  console.log('navigator.getUserMedia error: ', error);
+  console.log('navigator.getUserMedia error: ', error)
 }
 
 navigator.mediaDevices.getUserMedia(constraints).then(handleSuccess).catch(handleError)
-
-

@@ -34,11 +34,15 @@
     "webpack-merge": "^4.1.1"
   },
   "dependencies": {
+    "@turf/boolean-point-in-polygon": "^6.0.0",
+    "@turf/turf": "^5.1.6",
     "aframe": "^0.7.1",
     "aframe-arrow-component": "^1.0.0",
     "aframe-click-drag-component": "^3.0.1",
     "aframe-look-at-component": "^0.6.0",
     "aframe-touch-rotation-controls": "^0.2.1",
-    "lodash": "^4.17.5"
+    "lodash": "^4.17.5",
+    "point-in-geopolygon": "^1.0.1",
+    "turf": "^3.0.14"
   }
 }
